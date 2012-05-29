@@ -1,0 +1,21 @@
+<div class="userinfo" style="overflow:hidden;padding:15px;padding-left:96px;height:77px;">
+	<a href="#{-userFormatted}" style="position:absolute;top:10px;left:10px;padding-top:7px;">
+	   <img id='user-avatar' src="#{user.profile_picture}" class='avatar-middle' 
+	   		style="width:80px;height:80px;border-radius: 10px;"/>
+	</a>
+	<p id='username' class='username name-large'>#{user.username}&nbsp;</p>
+	<p id='follow-info'>
+		<span class='counts'>PO</span><span id='counts-po' class='counts-value'>&nbsp;:0</span>
+		<span class='counts'>FOED</span><span id='counts-foed' class='counts-value'>&nbsp;:0</span>
+		<span class='counts'>FO</span><span id='counts-fo' class='counts-value'>&nbsp;:0</span>
+	</p>
+	<div style="margin-top:5px;"><button id="btn-follow" class="clean-gray">follow</button></div>
+</div>
+<div style='margin:7px;'>
+    <div id='feed-list' x-mojo-element='List'>
+    </div>
+    <div id='float_all' style="position:fixed;top:0;left:0;width:100%;background:rgba(255,255,255,0.8);">
+        <div id='float_bar'style="margin:7px;position:relative;">
+        </div>
+    </div>
+</div>

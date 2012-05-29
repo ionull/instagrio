@@ -1,0 +1,179 @@
+function AppSDK() {
+	//
+};
+
+AppSDK.TAG = 'AppSDK';
+AppSDK.api_base = 'https://api.instagram.com/v1';
+
+AppSDK.loadReq = function(callback, url, urlParams, postParams) {
+	var method = "get";
+	url = AppSDK.api_base + url;
+	
+	if(urlParams != null) {
+		if(urlParams['method'] != null) method = urlParams['method'];
+		
+		for(var urlName in urlParams) {
+			//Mojo.Log.info(AppSDK.TAG, "urlParams " + urlName + " url " + url);
+			if(!AppSDK.inFilter(urlName)) 
+				url = AppSDK.addUriParam(url, urlName, urlParams[urlName]);
+			//Mojo.Log.info(AppSDK.TAG, "after " + url);
+		}
+		
+		if(AppHandler.access_token != null) {
+			url = AppSDK.addUriParam(url, 'access_token', AppHandler.access_token);
+		}
+		
+		if(method == 'put' || method == 'delete') {
+			url = AppSDK.addUriParam(url, 'method', method);
+			method = 'post';
+		}
+	}
+	
+	Mojo.Log.info(AppSDK.TAG, "method " + method + " url " + url);
+	
+	if(postParams != null) {
+//		for(var postName in postParams) {
+//			Mojo.Log.info(AppSDK.TAG, postName + " " + postParams[postName]);
+//		}
+		postParams['access_token'] = AppHandler.access_token;
+	}
+	
+	var postBody = '';
+    for (var name in postParams) {
+        if (postBody == '') {
+            postBody = name + '=' + postParams[name];
+        }
+        else {
+            postBody = postBody + '&' + name + '=' + postParams[name];
+        }
+    }
+	
+	var request = new Ajax.Request(url, {
+        method: method,
+        //evalJSON: 'force',
+//		postBody: JSON.stringify(postParams),
+		postBody: postBody,
+		//contentType: "application/json",
+        onSuccess: (function(transport){
+			Mojo.Log.info(AppSDK.TAG, 'onSuccess');// + transport.responseText);
+			AppHandler.onSuccess(callback, transport, {
+				url: url,
+				urlParams: urlParams,
+				postParams: postParams
+			});
+			//AppSDK.onSuccess(callback, transport);
+		}),
+        onFailure: (function(transport){
+			Mojo.Log.info(AppSDK.TAG, 'onFailure' + transport.responseText);
+			AppHandler.onFailure(callback, transport, {
+				url: url,
+				urlParams: urlParams,
+				postParams: postParams
+			});
+			//AppSDK.onFailure(callback, transport);
+		})
+    });
+};
+
+AppSDK.addUriParam = function(uri, name, value) {
+	if(value != null) {
+		var hasParam = (uri.indexOf("?") != -1);
+		return uri + (hasParam ? "&" : "?") + name + "=" + value;
+	} else {
+		return uri;
+	}
+};
+
+AppSDK.inFilter = function(name) {
+	var result = false;
+	var filter = ['method', 'doing', 'upload_id'];
+	if(filter.indexOf(name) >= 0) {
+		result = true;
+	}
+	return result;
+};
+
+AppSDK.getUser = function(callback, uid) {
+	var url = '/users/' + uid;
+	
+	var urlParams = {
+		'method': 'get',
+		'doing': 'getUser'
+	};
+	
+	AppSDK.loadReq(callback, url, urlParams);
+}
+
+AppSDK.getFeed = function(callback) {
+	var url = '/users/self/feed';
+	
+	var urlParams = {
+		'method': 'get',
+		'doing': 'getFeed'
+	};
+	
+	AppSDK.loadReq(callback, url, urlParams);
+};
+
+AppSDK.getPopular = function(callback) {
+	var url = '/media/popular';
+	
+	var urlParams = {
+		'method': 'get',
+		'doing': 'getPopular'
+	};
+	
+	AppSDK.loadReq(callback, url, urlParams);
+};
+
+AppSDK.getUserMedia = function(callback, uid) {
+	var url = '/users/' + uid + '/media/recent';
+	
+	var urlParams = {
+		'method': 'get',
+		'doing': 'getUserMedia'
+	};
+	
+	AppSDK.loadReq(callback, url, urlParams);
+};
+
+AppSDK.getMine = function(callback) {
+	AppSDK.getUserMedia(callback, 'self');
+};
+
+AppSDK.getUserRelationship = function(callback, uid) {
+	var url = '/users/' + uid + '/relationship';
+	
+	var urlParams = {
+		'method': 'get',
+		'doing': 'getUserRelationship'
+	};
+	
+	AppSDK.loadReq(callback, url, urlParams);
+};
+
+AppSDK.ACTION_FOLLOW = 'follow';
+AppSDK.ACTION_UNFOLLOW = 'unfollow';
+AppSDK.ACTION_BLOCK = 'block';
+AppSDK.ACTION_UNBLOCK = 'unblock';
+AppSDK.ACTION_APPROVE = 'approve';
+AppSDK.ACTION_DENY = 'deny';
+
+AppSDK.RELATION_NONE = 'none';
+AppSDK.RELATION_FOLLOWING = 'follows';
+//AppSDK.RELATION_FOLLOWED = ''
+
+AppSDK.postUserRelationship = function(callback, uid, action) {
+	var url = '/users/' + uid + '/relationship';
+	
+	var urlParams = {
+		'method': 'post',
+		'doing': 'postUserRelationship'
+	};
+	
+	var postParams = {
+		action: action
+	};
+	
+	AppSDK.loadReq(callback, url, urlParams, postParams);
+};

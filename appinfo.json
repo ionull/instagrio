@@ -1,0 +1,9 @@
+{
+	"id": "com.tsungw.instagrio",
+	"version": "0.0.4",
+	"vendor": "Tsung W.",
+	"type": "web",
+	"main": "index.html",
+	"title": "instagrio",
+	"icon": "icon.png"
+}
