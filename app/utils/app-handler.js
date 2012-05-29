@@ -12,7 +12,7 @@ AppHandler.TAG = 'AppHandler';
 AppHandler.onSuccess = function(callback, transport, reqInfo) {
 	Mojo.Log.info(AppHandler.TAG, 'onSuccess ' + reqInfo.urlParams['doing']);
 	var result = transport.responseJSON;
-	Mojo.Log.info(AppHandler.TAG, result);
+	Mojo.Log.info(AppHandler.TAG, JSON.stringify(result));
 	var doing = reqInfo.urlParams['doing']; 
 	callback.onSuccess(transport);
 };

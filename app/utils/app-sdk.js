@@ -23,10 +23,12 @@ AppSDK.loadReq = function(callback, url, urlParams, postParams) {
 			url = AppSDK.addUriParam(url, 'access_token', AppHandler.access_token);
 		}
 		
+		/*
 		if(method == 'put' || method == 'delete') {
 			url = AppSDK.addUriParam(url, 'method', method);
 			method = 'post';
 		}
+		*/
 	}
 	
 	Mojo.Log.info(AppSDK.TAG, "method " + method + " url " + url);
@@ -173,6 +175,34 @@ AppSDK.postUserRelationship = function(callback, uid, action) {
 	
 	var postParams = {
 		action: action
+	};
+	
+	AppSDK.loadReq(callback, url, urlParams, postParams);
+};
+
+AppSDK.postMediaLikes = function(callback, media) {
+	var url = '/media/' + media + '/likes';
+	
+	var urlParams = {
+		'method': 'post',
+		'doing': 'postMediaLikes'
+	};
+	
+	var postParams = {
+	};
+	
+	AppSDK.loadReq(callback, url, urlParams, postParams);
+};
+
+AppSDK.delMediaLikes = function(callback, media) {
+	var url = '/media/' + media + '/likes';
+	
+	var urlParams = {
+		'method': 'delete',
+		'doing': 'delMediaLikes'
+	};
+	
+	var postParams = {
 	};
 	
 	AppSDK.loadReq(callback, url, urlParams, postParams);
