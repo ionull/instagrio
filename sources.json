@@ -5,6 +5,7 @@
     {"source": "app/utils/app-sdk.js"},
     {"source": "app/utils/app-db.js"},
     {"source": "app/utils/app-menu.js"},
+    {"source": "app/assistants/comment-add-assistant.js"},
 	{"source": "app/utils/photo-list-helper.js"},
     {"source": "app/assistants/stage-assistant.js"},
 	{"source": "app/assistants/base-assistant.js"},

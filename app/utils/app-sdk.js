@@ -207,3 +207,18 @@ AppSDK.delMediaLikes = function(callback, media) {
 	
 	AppSDK.loadReq(callback, url, urlParams, postParams);
 };
+
+AppSDK.postMediaComments = function(callback, media, comment) {
+	var url = '/media/' + media + '/comments';
+
+	var urlParams = {
+		'method': 'post',
+		'doing': 'postMediaComments'
+	};
+
+	var postParams = {
+		text: comment
+	};
+
+	AppSDK.loadReq(callback, url, urlParams, postParams);
+};

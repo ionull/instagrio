@@ -132,6 +132,11 @@ var PhotoListHelper = Class.create((function() {
 								}
 								break;
 							case 'comment':
+								that.controller.showDialog({
+									template: 'templates/comment-add-dialog',
+									assistant: new CommentAddAssistant(that, item),
+									preventCancel: true
+								});
 								break;
 							case 'save':
 								//download it
