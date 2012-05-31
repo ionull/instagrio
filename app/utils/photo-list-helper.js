@@ -223,7 +223,7 @@ var PhotoListHelper = Class.create((function() {
 					location: AppFormatter.location.bind(this),
 					created_time: AppFormatter.time.bind(this),
 					user: this.linkable ? AppFormatter.user.bind(this) : AppFormatter.user_nolink.bind(this),
-					'likes': AppFormatter.count.bind(this)
+					'likes': AppFormatter.likesCount.bind(this)
 				},
 				uniquenessProperty: 'id',
 				fixedHeightItems: false,

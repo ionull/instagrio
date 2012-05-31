@@ -148,6 +148,18 @@ ol, ul {
   padding: 5px;
 }
 
+.likeContent {
+  padding-left: 30px;
+}
+
+.liked {
+  background: url(../images/icons/liked.png) no-repeat left;
+}
+
+.unliked {
+  background: url(../images/icons/unliked.png) no-repeat left;
+}
+
 /* clean gray
 *******************************************************************************/
 button.clean-gray {

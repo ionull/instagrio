@@ -23,13 +23,22 @@ var AppFormatter = {
 	user_nolink: function(n, model) {
 		return '#';
 	},
-	count: function(n, model) {
+	likesCount: function(n, model) {
 		if(n) {
-			if(n.count > 1) {
-				return n.count + ' likes';
+			var img = '';
+			if(model.user_has_liked) {
+				img = 'liked';
 			} else {
-				return n.count + ' like';
+				img = 'unliked';
 			}
+			var like = '';
+			if(n.count > 1) {
+				like = n.count + ' likes';
+			} else {
+				like = n.count + ' like';
+			}
+			like = "<div class='likeContent " + img + "'/>" + like + "</div>";
+			return like;
 		} else {
 			return '';
 		}
