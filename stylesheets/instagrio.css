@@ -137,6 +137,17 @@ ol, ul {
     top: 5px;
 }
 
+.like {
+  -moz-border-radius:10px;
+  -webkit-border-radius:10px;
+  border-radius:10px;
+  border: #solid 10px #000; /* fallback for browsers that don't understand rgba */
+  background-color: rgba(0,0,0,0.7);/* slighly transparent white */
+  border-color: solid 10px rgba(0,0,0,0.2); /*Very transparent black*/
+  color: white;
+  padding: 5px;
+}
+
 /* clean gray
 *******************************************************************************/
 button.clean-gray {

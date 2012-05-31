@@ -7,5 +7,8 @@
 	    <a href="#{-userFormatted}" class='username'><span>#{user.username}</span></a>
 		<p class='location'>#{-locationFormatted}</p>
 	  </div>
-	  <img src="#{images.low_resolution.url}" data-action="image" data-id="#{id}" width="100%" style="padding-top:7px"/>
+    <div width="100%" style="padding-top:7px">
+	    <img src="#{images.low_resolution.url}" data-action="image" data-id="#{id}" width="100%">
+      <div class="like" style="position: absolute;right: 10px; top: 60px;">#{-likesFormatted}</div>
+    </div>
 </li>

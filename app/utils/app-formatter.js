@@ -22,5 +22,16 @@ var AppFormatter = {
 	},
 	user_nolink: function(n, model) {
 		return '#';
+	},
+	count: function(n, model) {
+		if(n) {
+			if(n.count > 1) {
+				return n.count + ' likes';
+			} else {
+				return n.count + ' like';
+			}
+		} else {
+			return '';
+		}
 	}
 };
