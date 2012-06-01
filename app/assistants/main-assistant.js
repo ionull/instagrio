@@ -51,6 +51,8 @@ var MainAssistant = Class.create(BaseAssistant, (function(){
                             AppSDK.getMine(this.callback);
                             break;
                             break;
+						case 'liked':
+							AppSDK.getUsersSelfMediaLiked(this.callback);
                         default:
                             break;
                     }

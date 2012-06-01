@@ -118,6 +118,8 @@ var PhotoListHelper = Class.create((function() {
 										onSuccess:
 										function() {
 											item['user_has_liked'] = false;
+											item['likes']['count'] = (item['likes']['count'] - 1);
+											that.controller.modelChanged(that.modelList);
 										}
 									},
 									item['id']);
@@ -125,6 +127,8 @@ var PhotoListHelper = Class.create((function() {
 									AppSDK.postMediaLikes({
 										onSuccess: function() {
 											item['user_has_liked'] = true;
+											item['likes']['count'] = (item['likes']['count'] + 1);
+											that.controller.modelChanged(that.modelList);
 										}
 									},
 									item['id']);

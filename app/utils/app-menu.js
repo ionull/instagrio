@@ -3,7 +3,8 @@ function AppMenu(opts){
 	this.menus = {
 		home: 'home',
 		hot: 'hot',
-		mine: 'mine'//,
+		mine: 'mine',
+		liked: 'liked'
 		//setting: 'setting'
 	}
     this.init();

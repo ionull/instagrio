@@ -143,6 +143,17 @@ AppSDK.getMine = function(callback) {
 	AppSDK.getUserMedia(callback, 'self');
 };
 
+AppSDK.getUsersSelfMediaLiked = function(callback) {
+	var url = '/users/' + 'self' + '/media/liked';
+	
+	var urlParams = {
+		'method': 'get',
+		'doing': 'getUsersSelfMediaLiked'
+	};
+	
+	AppSDK.loadReq(callback, url, urlParams);
+};
+
 AppSDK.getUserRelationship = function(callback, uid) {
 	var url = '/users/' + uid + '/relationship';
 	
