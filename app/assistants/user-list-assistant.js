@@ -9,7 +9,7 @@ var UserListAssistant = Class.create(BaseAssistant, {
 			itemTemplate: 'user-list/user-list-item',
 			listTemplate: 'templates/photo-list',
 			formatters: {
-				//location: AppFormatter.location.bind(this),
+				index: AppFormatter.index.bind(this)
 			},
 			uniquenessProperty: 'id',
 			fixedHeightItems: false,
@@ -27,6 +27,7 @@ var UserListAssistant = Class.create(BaseAssistant, {
 				that.modelList.items = [];
 				for (var i = 0; i < data.length; ++i) {
 					if (typeof data[i] != "function") {
+						data[i]['index'] = i;
 						that.modelList.items.push(data[i]);
 					}
 					else {

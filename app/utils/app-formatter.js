@@ -42,5 +42,13 @@ var AppFormatter = {
 		} else {
 			return '';
 		}
+	},
+	index: function(n, model) {
+		if(n) {
+			if(n % 2 != 0) {
+				return 'user-item-dark';
+			}
+		}
+		return 'user-item-light';
 	}
 };

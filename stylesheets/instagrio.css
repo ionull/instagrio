@@ -160,6 +160,13 @@ ol, ul {
   background: url(../images/icons/unliked.png) no-repeat left;
 }
 
+.user-item-dark {
+  background-color: rgba(0,0,0,0.2);
+}
+.user-item-light {
+  background-color: rgba(0,0,0,0.1);
+}
+
 /* clean gray
 *******************************************************************************/
 button.clean-gray {
