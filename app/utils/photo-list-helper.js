@@ -56,11 +56,10 @@ var PhotoListHelper = Class.create((function() {
 					floatAll[i == 0 && top == 7 ? 'hide': 'show']();
 
 					floatBar.innerHTML = currEl.innerHTML;
-					var els = floatBar.getElementsBySelector('img');
-					els.each(function(ins) {
+					var children = Element.childElements($(floatBar));
+					children.each(function(ins) {
 						var s = $(ins);
-						if (!s.hasClassName('avatar')) {
-							//Mojo.Log.info('not avatar: ' + s.outerHTML);
+						if(!s.hasClassName('floating')) {
 							s.outerHTML = '';
 						}
 					});
