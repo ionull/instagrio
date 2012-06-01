@@ -219,6 +219,17 @@ AppSDK.delMediaLikes = function(callback, media) {
 	AppSDK.loadReq(callback, url, urlParams, postParams);
 };
 
+AppSDK.getMediaLikes = function(callback, media) {
+	var url = '/media/' + media + '/likes';
+
+	var urlParams = {
+		'method': 'get',
+		'doing': 'getMediaLikes'
+	}
+
+	AppSDK.loadReq(callback, url, urlParams);
+};
+
 AppSDK.postMediaComments = function(callback, media, comment) {
 	var url = '/media/' + media + '/comments';
 

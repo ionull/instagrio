@@ -37,7 +37,7 @@ var AppFormatter = {
 			} else {
 				like = n.count + ' like';
 			}
-			like = "<div class='likeContent " + img + "'/>" + like + "</div>";
+			like = "<div class='likeContent " + img + "' data-id='" + model.id + "'/>" + like + "</div>";
 			return like;
 		} else {
 			return '';

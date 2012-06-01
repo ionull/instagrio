@@ -22,6 +22,10 @@
         "source": "app/assistants/user-assistant.js"
     },
     {
+        "scenes": "user-list",
+        "source": "app/assistants/user-list-assistant.js"
+    },
+    {
         "scenes": "connect",
         "source": "app/assistants/connect-assistant.js"
     }

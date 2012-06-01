@@ -71,6 +71,17 @@ var PhotoListHelper = Class.create((function() {
 			Mojo.Log.info('listWasTappedddd' + event.item.id);
 			var items = this.modelList.items;
 		},
+		onTap: function(event) {
+			var that = this;
+			var target = event.target;
+			Mojo.Log.info('tap----->: ' + target.outerHTML);
+			var s = $(target);
+			if(s.hasClassName('likeContent')) {
+				//show like list
+				var media = target.getAttribute('data-id');
+				that.controller.stageController.pushScene('user-list', media);
+			}
+		},
 		onHold: function(event) {
 			var that = this;
 			var target = event.target;
@@ -245,7 +256,10 @@ var PhotoListHelper = Class.create((function() {
 			Mojo.Event.listen(this.scroller, 'scroll', this.scrollerListener);
 
 			//hold event on list item
-			Mojo.Event.listen(this.controller.document, Mojo.Event.hold, private_fn.onHold.bind(this));
+			//Mojo.Event.listen(this.controller.document, Mojo.Event.hold, private_fn.onHold.bind(this));
+			Mojo.Event.listen(this.photoList, Mojo.Event.hold, private_fn.onHold.bind(this));
+
+			Mojo.Event.listen(this.photoList, Mojo.Event.tap, private_fn.onTap.bind(this));
 		},
 		callback: function() {
 			return {
