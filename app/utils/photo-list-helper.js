@@ -93,7 +93,7 @@ var PhotoListHelper = Class.create((function() {
 				if (!item) {
 					return;
 				}
-				that.controller.stageController.pushScene('picture-view', item['images']['standard_resolution']['url']);
+				that.controller.stageController.pushScene('picture-view', item);
 			}
 		},
 		onHold: function(event) {
