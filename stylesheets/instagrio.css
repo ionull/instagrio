@@ -84,10 +84,16 @@ body {
 	color: white;
 }
 
+.viewer-caption {
+    float: left;
+    width: 100%;
+    text-align: center;
+}
+
 .viewer li {
     float: left;
     width: 50%;
-    text-align: center
+    text-align: center;
 }
 
 .viewer li span {
