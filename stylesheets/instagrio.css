@@ -52,11 +52,12 @@ body {
 	left:0;
 	background:rgba(0,0,0,0.8);
 	padding-top:7px;
-	width:50%;
+	padding-bottom:7px;
+	width:100%;
 }
 .nav li {
     float: left;
-    width: 50%;
+    width: 25%;
     text-align: center
 }
 
@@ -68,6 +69,37 @@ body {
 
 .nav li span.active {
 	color: white;
+}
+
+/* picture viewer */
+#viewer-bar {
+	position:fixed;
+	bottom:0;
+	left:0;
+	padding-top:15px;
+	padding-bottom:15px;
+	width:100%;
+	background-color: rgba(0,0,0,0.7);/* slighly transparent white */
+	border-color: solid 10px rgba(0,0,0,0.2); /*Very transparent black*/
+	color: white;
+}
+
+.viewer-caption {
+    float: left;
+    width: 100%;
+    text-align: center;
+}
+
+.viewer li {
+    float: left;
+    width: 50%;
+    text-align: center;
+}
+
+.viewer li span {
+    padding: 4px;
+    font-size: 18px;
+    font-weight: bold;
 }
 
 /* feed item */

@@ -4,6 +4,7 @@ var UserListAssistant = Class.create(BaseAssistant, {
 		this.media = media;
 	},
 	setup: function() {
+		AppHandler.setAppBackground("#FFFFFF");
 		var that = this;
 		this.controller.setupWidget('user-list', {
 			itemTemplate: 'user-list/user-list-item',

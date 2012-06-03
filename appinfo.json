@@ -1,7 +1,7 @@
 {
-	"id": "com.tsungw.instagrio",
-	"version": "0.0.4",
-	"vendor": "Tsung W.",
+	"id": "com.invalidopcode.instagrio",
+	"version": "0.0.5",
+	"vendor": "Mark S.",
 	"type": "web",
 	"main": "index.html",
 	"title": "instagrio",

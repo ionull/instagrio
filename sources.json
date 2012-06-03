@@ -28,5 +28,13 @@
     {
         "scenes": "connect",
         "source": "app/assistants/connect-assistant.js"
+    },
+    {
+        "scenes": "picture-view",
+	"source": "app/assistants/picture-view-assistant.js"
+    },
+    {
+	"scenes": "comment-list",
+	"source": "app/assistants/comment-list-assistant.js"
     }
 ]

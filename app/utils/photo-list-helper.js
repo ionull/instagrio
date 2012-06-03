@@ -80,6 +80,20 @@ var PhotoListHelper = Class.create((function() {
 				//show like list
 				var media = target.getAttribute('data-id');
 				that.controller.stageController.pushScene('user-list', media);
+			} else if(s.getAttribute('data-action') == "image") {
+				var dataID = target.getAttribute('data-id');
+				var items = that.modelList.items;
+				var item = null;
+				for (var index in items) {
+					if (items[index].id == dataID) {
+						item = items[index];
+						break;
+					}
+				}
+				if (!item) {
+					return;
+				}
+				that.controller.stageController.pushScene('picture-view', item);
 			}
 		},
 		onHold: function(event) {
