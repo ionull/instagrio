@@ -117,9 +117,10 @@ var PhotoListHelper = Class.create((function() {
 				if (!item) {
 					return;
 				}
-				AppMenu.noSwitch = true;
 				switch (action) {
 				case 'image':
+					//menu switch off
+					AppMenu.noSwitch = true;
 					//show alert what to do
 					var choices = [{
 						label: 'Comment',
