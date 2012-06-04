@@ -85,6 +85,9 @@ AppMenu.prototype = {
 		//Mojo.Log.info('prevent: ' + who.outerHTML);
 		var that = this;
 		who.observe('keyup', who.handlerKeyUp = function(e){
+			if(AppMenu.noSwitch) {
+				return;
+			}
 			var keyCode = e.keyCode;
 			Mojo.Log.info('onkeyup: ' + keyCode);
 			if(keyCode == 57575 || keyCode == 27) {

@@ -117,6 +117,7 @@ var PhotoListHelper = Class.create((function() {
 				if (!item) {
 					return;
 				}
+				AppMenu.noSwitch = true;
 				switch (action) {
 				case 'image':
 					//show alert what to do
@@ -139,6 +140,7 @@ var PhotoListHelper = Class.create((function() {
 					}
 					this.controller.showAlertDialog({
 						onChoose: function(what) {
+							AppMenu.noSwitch = false;
 							switch (what) {
 							case 'like':
 								if (item['user_has_liked']) {
