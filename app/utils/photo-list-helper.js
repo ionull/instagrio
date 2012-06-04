@@ -59,7 +59,7 @@ var PhotoListHelper = Class.create((function() {
 					var children = Element.childElements($(floatBar));
 					children.each(function(ins) {
 						var s = $(ins);
-						if(!s.hasClassName('floating')) {
+						if (!s.hasClassName('floating')) {
 							s.outerHTML = '';
 						}
 					});
@@ -76,7 +76,7 @@ var PhotoListHelper = Class.create((function() {
 			var target = event.target;
 			Mojo.Log.info('tap----->: ' + target.outerHTML);
 			var s = $(target);
-			if(s.hasClassName('likeContent')) {
+			if (s.hasClassName('likeContent')) {
 				//show like list
 				var media = target.getAttribute('data-id');
 				that.controller.stageController.pushScene('user-list', media);
@@ -130,7 +130,26 @@ var PhotoListHelper = Class.create((function() {
 										function() {
 											item['user_has_liked'] = false;
 											item['likes']['count'] = (item['likes']['count'] - 1);
-											that.controller.modelChanged(that.modelList);
+											//notify like changed
+											var p = target.parentNode;
+											var children = Element.childElements($(p));
+											children.each(function(ins) {
+												var s = $(ins);
+												if (s.hasClassName('like')) {
+													var likes = Element.childElements(s);
+													likes.each(function(els) {
+														var e = $(els);
+														if (e.hasClassName('likeContent')) {
+															Mojo.Log.error('like element got------->');
+															if (e.hasClassName('liked')) {
+																e.removeClassName('liked');
+															}
+															e.addClassName('unliked');
+														}
+													});
+												}
+											});
+											//that.controller.modelChanged(that.modelList);
 										}
 									},
 									item['id']);
@@ -139,7 +158,26 @@ var PhotoListHelper = Class.create((function() {
 										onSuccess: function() {
 											item['user_has_liked'] = true;
 											item['likes']['count'] = (item['likes']['count'] + 1);
-											that.controller.modelChanged(that.modelList);
+											//notify like changed
+											var p = target.parentNode;
+											var children = Element.childElements($(p));
+											children.each(function(ins) {
+												var s = $(ins);
+												if (s.hasClassName('like')) {
+													var likes = Element.childElements(s);
+													likes.each(function(els) {
+														var e = $(els);
+														if (e.hasClassName('likeContent')) {
+															Mojo.Log.error('like element got------->');
+															if (e.hasClassName('unliked')) {
+																e.removeClassName('unliked');
+															}
+															e.addClassName('liked');
+														}
+													});
+												}
+											});
+											//that.controller.modelChanged(that.modelList);
 										}
 									},
 									item['id']);
@@ -147,7 +185,8 @@ var PhotoListHelper = Class.create((function() {
 								break;
 							case 'comment':
 								that.controller.showDialog({
-									template: 'templates/comment-add-dialog',
+									template:
+									'templates/comment-add-dialog',
 									assistant: new CommentAddAssistant(that, item),
 									preventCancel: true
 								});
