@@ -1,6 +1,6 @@
 {
-	"id": "com.tsungw.instagrio",
-	"version": "0.0.4",
+	"id": "bz.tsung.instagrio",
+	"version": "0.0.7",
 	"vendor": "Tsung W.",
 	"type": "web",
 	"main": "index.html",
