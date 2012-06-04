@@ -244,3 +244,14 @@ AppSDK.postMediaComments = function(callback, media, comment) {
 
 	AppSDK.loadReq(callback, url, urlParams, postParams);
 };
+
+AppSDK.getMediaComments = function(callback, media) {
+	var url = '/media/' + media + '/comments';
+
+	var urlParams = {
+		'method': 'get',
+		'doing': 'getMediaComments'
+	};
+
+	AppSDK.loadReq(callback, url, urlParams);
+};

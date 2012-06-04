@@ -80,6 +80,23 @@ var PhotoListHelper = Class.create((function() {
 				//show like list
 				var media = target.getAttribute('data-id');
 				that.controller.stageController.pushScene('user-list', media);
+			} else if (s.hasClassName('commentsCount')) {
+				var media = target.getAttribute('data-id');
+				that.controller.stageController.pushScene('comment-list', media);
+			} else if (s.hasClassName('userInfo')) {
+				var media = target.getAttribute('data-id');
+				if (s.hasClassName('commentUser')) {
+					for (var now in that.modelList.items) {
+						var curr = that.modelList.items[now];
+						if (curr.id == media) {
+							var subID = target.getAttribute('sub-id');
+							var comment = curr.comments.data[subID];
+							that.controller.stageController.pushScene('user', {
+								user: comment.from
+							});
+						}
+					}
+				}
 			}
 		},
 		onHold: function(event) {
@@ -276,7 +293,8 @@ var PhotoListHelper = Class.create((function() {
 					location: AppFormatter.location.bind(this),
 					created_time: AppFormatter.time.bind(this),
 					user: this.linkable ? AppFormatter.user.bind(this) : AppFormatter.user_nolink.bind(this),
-					'likes': AppFormatter.likesCount.bind(this)
+					'likes': AppFormatter.likesCount.bind(this),
+					comments: AppFormatter.comments.bind(this)
 				},
 				uniquenessProperty: 'id',
 				fixedHeightItems: false,

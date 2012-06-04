@@ -123,7 +123,7 @@ ol, ul {
 	text-overflow: ellipsis;
 }
 
-.normal, .time, .nav li span {
+.normal, .time, .comment, .nav li span {
     color: #757575;
 }
 
@@ -135,6 +135,10 @@ ol, ul {
     position: absolute;
     right: 0;
     top: 5px;
+}
+
+.comment {
+  font-size: 16px;
 }
 
 .like {

@@ -50,5 +50,25 @@ var AppFormatter = {
 			}
 		}
 		return 'user-item-light';
+	},
+	comments: function(n, model) {
+		if(n && n.count > 0) {
+			var count = '';
+			if(n.count > 1) {
+				count = n.count + ' comments';
+			} else {
+				count = n.count + ' comment';
+			}
+			count = ('<a href="#" class="commentsCount username" data-id="' + model.id + '">' + count + '</a>');
+			var list = '';
+			for(var now in n.data) {
+				var curr = n.data[now];
+				if(!(curr.text))continue;
+				list += ('<br/><a href="#" class="username userInfo commentUser" data-id="' + model.id + '" sub-id="' + now + '">' + curr.from.username + '</a>:&nbsp;' + curr.text + '&nbsp;&nbsp;' + AppFormatter.timeSince(parseInt(curr.created_time)*1000));
+			}
+			return count + list;
+		} else {
+			return '';
+		}
 	}
 };
