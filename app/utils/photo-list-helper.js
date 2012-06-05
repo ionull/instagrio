@@ -221,7 +221,7 @@ var PhotoListHelper = Class.create((function() {
 									parameters: {
 										target: standardResolution,
 										targetDir: '/media/internal/instagrio',
-										//targetFilename: target.getAttribute('file-name'),
+										targetFilename: item.user.username + '_' + item.created_time + '.jpg',
 										keepFilenameOnRedirect: false,
 										subscribe: false
 									},
