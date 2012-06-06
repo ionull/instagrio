@@ -5,6 +5,7 @@
     {"source": "app/utils/app-sdk.js"},
     {"source": "app/utils/app-db.js"},
     {"source": "app/utils/app-menu.js"},
+    {"source": "app/assistants/photo-tap-assistant.js"},
     {"source": "app/assistants/comment-add-assistant.js"},
 	{"source": "app/utils/photo-list-helper.js"},
     {"source": "app/assistants/stage-assistant.js"},
@@ -18,6 +19,10 @@
         "source": "app/assistants/main-assistant.js"
     },
     {
+        "scenes": "location-gallery",
+        "source": "app/assistants/location-gallery-assistant.js"
+    },
+    {
         "scenes": "user",
         "source": "app/assistants/user-assistant.js"
     },
@@ -28,6 +33,10 @@
     {
         "scenes": "comment-list",
         "source": "app/assistants/comment-list-assistant.js"
+    },
+    {
+        "scenes": "photo-gallery",
+        "source": "app/assistants/photo-gallery-assistant.js"
     },
     {
         "scenes": "connect",

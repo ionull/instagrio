@@ -18,34 +18,40 @@ CommentAddAssistant.prototype = {
 			content: '',
 			diabled: false
 		});
-		this.assistant.controller.setupWidget("okButton", {},
-		{
-			label: "OK",
-			disabled: false
-		});
-		this.assistant.controller.setupWidget("cancelButton", {},
-		{
-			label: "Cancel",
-			disabled: false
-		});
 
 		//listeners
-		this.okButtonHandler = this.sendComment.bind(this);
-		this.assistant.controller.listen("okButton", Mojo.Event.tap, this.okButtonHandler);
-		this.assistant.controller.listen("cancelButton", Mojo.Event.tap, this.widget.mojo.close);
-	},
-	cleanup: function() {
-		this.assistant.controller.stopListening("okButton", Mojo.Event.tap, this.okButtonHandler);
-		this.assistant.controller.stopListening("cancelButton", Mojo.Event.tap, this.widget.mojo.close);
+		this.clickHandler = this.onClick.bind(this);
+		this.assistant.controller.listen(this.assistant.controller.document, Mojo.Event.tap, this.clickHandler);
 	},
 	activate: function() {},
-	deactivate: function() {},
+	deactivate: function() {
+		this.assistant.controller.stopListening(this.assistant.controller.document, Mojo.Event.tap, this.clickHandler);
+		//FIXME why event lost after showDialog
+		this.assistant.assistant.activate();
+	},
+	cleanup: function() {
+	},
+	onClick: function(event) {
+		var target = event.target;
+		if(!(target.id)) {
+			target = target.parentNode;
+		}
+		switch(target.id) {
+			case 'comment':
+			this.sendComment();
+			break;
+			case 'cancel':
+			this.widget.mojo.close();
+			break;
+		}
+	},
 	sendComment: function() {
 		var that = this;
 		Mojo.Log.info('on send comment ' + this.model.content);
 		if (this.model.content == '') {
 			return;
 		} else {
+			AppHandler.alert('commenting..');
 			AppSDK.postMediaComments({
 				onSuccess: function() {
 					that.widget.mojo.close();

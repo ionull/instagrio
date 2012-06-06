@@ -174,6 +174,7 @@ AppSDK.ACTION_DENY = 'deny';
 
 AppSDK.RELATION_NONE = 'none';
 AppSDK.RELATION_FOLLOWING = 'follows';
+AppSDK.RELATION_REQUESTED = 'requested';
 //AppSDK.RELATION_FOLLOWED = ''
 
 AppSDK.postUserRelationship = function(callback, uid, action) {
@@ -252,6 +253,36 @@ AppSDK.getMediaComments = function(callback, media) {
 		'method': 'get',
 		'doing': 'getMediaComments'
 	};
+
+	AppSDK.loadReq(callback, url, urlParams);
+};
+
+AppSDK.getMediaSearch = function(callback, lat, lng) {
+	var url = '/media/search';
+
+	var urlParams = {
+		'method': 'get',
+		'doing': 'getMediaSearch',
+		'lat': lat,
+		'lng': lng
+	}
+
+	AppSDK.loadReq(callback, url, urlParams);
+};
+
+AppSDK.getLocationsSearch = function(callback, lat, lng, distance) {
+	if(!distance) {
+		distance = 5000;
+	}
+	var url = '/locations/search';
+
+	var urlParams = {
+		'method': 'get',
+		'doing': 'getLocationsSearch',
+		'lat': lat,
+		'lng': lng,
+		'distance': distance
+	}
 
 	AppSDK.loadReq(callback, url, urlParams);
 };

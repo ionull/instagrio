@@ -72,9 +72,13 @@ var PhotoListHelper = Class.create((function() {
 			var items = this.modelList.items;
 		},
 		onTap: function(event) {
+			PhotoListHelper.timeTap = new Date();
+			if (PhotoListHelper.timeHold && (( + (PhotoListHelper.timeTap)) - ( + (PhotoListHelper.timeHold.getTime())) < 500)) {
+				return;
+			}
 			var that = this;
 			var target = event.target;
-			Mojo.Log.info('tap----->: ' + target.outerHTML);
+			Mojo.Log.error('tap----->: ' + target.outerHTML);
 			var s = $(target);
 			if (s.hasClassName('likeContent')) {
 				//show like list
@@ -94,15 +98,43 @@ var PhotoListHelper = Class.create((function() {
 							that.controller.stageController.pushScene('user', {
 								user: comment.from
 							});
+							break;
 						}
+					}
+				} else if (s.hasClassName('photoUser')) {
+					for (var now in that.modelList.items) {
+						var curr = that.modelList.items[now];
+						if (curr.id == media) {
+							that.controller.stageController.pushScene('user', {
+								user: curr.user
+							});
+							break;
+						}
+					}
+				}
+			} else if (s.hasClassName('location')) {
+				var lat = target.getAttribute('lat');
+				var lng = target.getAttribute('lng');
+				if (lat && lng) {
+					//show location photos
+					that.controller.stageController.pushScene('location-gallery', lat, lng);
+				}
+			} else if (target.hasAttribute('data-action') && target.getAttribute('data-action') == 'image') {
+				var media = target.getAttribute('data-id');
+				for (var now in that.modelList.items) {
+					var curr = that.modelList.items[now];
+					if (curr.id == media) {
+						that.controller.stageController.pushScene('photo-gallery', curr, that.modelList.items);
+						break;
 					}
 				}
 			}
 		},
 		onHold: function(event) {
+			PhotoListHelper.timeHold = new Date();
 			var that = this;
 			var target = event.target;
-			Mojo.Log.info('hold--------->: ' + target.outerHTML);
+			Mojo.Log.error('hold--------->: ' + target.outerHTML);
 			if (target && target.hasAttribute('data-action')) {
 				var action = target.getAttribute('data-action');
 				var dataID = target.getAttribute('data-id');
@@ -119,127 +151,12 @@ var PhotoListHelper = Class.create((function() {
 				}
 				switch (action) {
 				case 'image':
-					//menu switch off
-					AppMenu.noSwitch = true;
 					//show alert what to do
-					var choices = [{
-						label: 'Comment',
-						value: 'comment',
-						type: 'affirmative'
-					},
-					{
-						label: 'Save',
-						value: 'save',
-						type: 'affirmative'
-					}];
-					if (! (item['user_has_liked'])) {
-						choices.splice(0, 0, {
-							label: item['user_has_liked'] ? 'Unlike': 'Like',
-							value: 'like',
-							type: 'affirmative'
-						});
-					}
-					this.controller.showAlertDialog({
-						onChoose: function(what) {
-							AppMenu.noSwitch = false;
-							switch (what) {
-							case 'like':
-								if (item['user_has_liked']) {
-									AppSDK.delMediaLikes({
-										onSuccess:
-										function() {
-											item['user_has_liked'] = false;
-											item['likes']['count'] = (item['likes']['count'] - 1);
-											//notify like changed
-											var p = target.parentNode;
-											var children = Element.childElements($(p));
-											children.each(function(ins) {
-												var s = $(ins);
-												if (s.hasClassName('like')) {
-													var likes = Element.childElements(s);
-													likes.each(function(els) {
-														var e = $(els);
-														if (e.hasClassName('likeContent')) {
-															Mojo.Log.error('like element got------->');
-															if (e.hasClassName('liked')) {
-																e.removeClassName('liked');
-															}
-															e.addClassName('unliked');
-														}
-													});
-												}
-											});
-											//that.controller.modelChanged(that.modelList);
-										}
-									},
-									item['id']);
-								} else {
-									AppSDK.postMediaLikes({
-										onSuccess: function() {
-											item['user_has_liked'] = true;
-											item['likes']['count'] = (item['likes']['count'] + 1);
-											//notify like changed
-											var p = target.parentNode;
-											var children = Element.childElements($(p));
-											children.each(function(ins) {
-												var s = $(ins);
-												if (s.hasClassName('like')) {
-													var likes = Element.childElements(s);
-													likes.each(function(els) {
-														var e = $(els);
-														if (e.hasClassName('likeContent')) {
-															Mojo.Log.error('like element got------->');
-															if (e.hasClassName('unliked')) {
-																e.removeClassName('unliked');
-															}
-															e.addClassName('liked');
-														}
-													});
-												}
-											});
-											//that.controller.modelChanged(that.modelList);
-										}
-									},
-									item['id']);
-								}
-								break;
-							case 'comment':
-								that.controller.showDialog({
-									template:
-									'templates/comment-add-dialog',
-									assistant: new CommentAddAssistant(that, item),
-									preventCancel: true
-								});
-								break;
-							case 'save':
-								//download it
-								var standardResolution = item['images']['standard_resolution']['url'];
-								Mojo.Log.info('downloading---> ' + standardResolution);
-
-								that.controller.serviceRequest('palm://com.palm.downloadmanager/', {
-									method: 'download',
-									parameters: {
-										target: standardResolution,
-										targetDir: '/media/internal/instagrio',
-										targetFilename: item.user.username + '_' + item.created_time + '.jpg',
-										keepFilenameOnRedirect: false,
-										subscribe: false
-									},
-									onSuccess: function(resp) {
-										Mojo.Log.error(Object.toJSON(resp))
-									},
-									onFailure: function(e) {
-										Mojo.Log.error(Object.toJSON(e))
-									}
-								});
-								break;
-							default:
-								break;
-							}
-						},
-						title: 'You want to:',
-						message: '',
-						choices: choices
+					that.controller.showDialog({
+						template:
+						'templates/photo-tap-dialog',
+						assistant: new PhotoTapAssistant(that, item, target),
+						preventCancel: false
 					});
 					break;
 				default:
@@ -274,7 +191,7 @@ var PhotoListHelper = Class.create((function() {
 		 * opts {
 		 * 	idList: id of list widget,
 		 * 	controller,
-		 * 	linkable: if user profile piction and user name can be clicked
+		 * 	linkable: if user profile avatar and user name can be clicked
 		 * }
 		 */
 		initialize: function(opts) {
@@ -288,6 +205,7 @@ var PhotoListHelper = Class.create((function() {
 			}
 		},
 		setup: function() {
+			this.assistant.photoListHelper = this;
 			this.controller.setupWidget(this.idList, {
 				itemTemplate: 'templates/photo-list-item',
 				listTemplate: 'templates/photo-list',
@@ -317,16 +235,28 @@ var PhotoListHelper = Class.create((function() {
 			Mojo.Event.listen(this.scroller, 'scroll', this.scrollerListener);
 
 			//hold event on list item
-			//Mojo.Event.listen(this.controller.document, Mojo.Event.hold, private_fn.onHold.bind(this));
-			Mojo.Event.listen(this.photoList, Mojo.Event.hold, private_fn.onHold.bind(this));
+			this.onHoldListener = private_fn.onHold.bind(this);
+			//Mojo.Event.listen(this.controller.document, Mojo.Event.hold, this.onHoldListener);
+			Mojo.Event.listen(this.photoList, Mojo.Event.hold, this.onHoldListener);
 
-			Mojo.Event.listen(this.photoList, Mojo.Event.tap, private_fn.onTap.bind(this));
+			this.onTapListener = private_fn.onTap.bind(this);
+			Mojo.Event.listen(this.photoList, Mojo.Event.tap, this.onTapListener);
+			Mojo.Event.listen($('float_all'), Mojo.Event.tap, this.onTapListener);
 		},
 		callback: function() {
 			return {
 				onSuccess: private_fn.onSuccess.bind(this),
 				onFailure: private_fn.onFailure.bind(this)
 			}
+		},
+		cleanup: function() {
+			//Mojo.Log.error('on photo list cleanup---->');
+			Mojo.Event.stopListening(this.photoList, Mojo.Event.listTap, private_fn.listWasTapped.bind(this));
+			Mojo.Event.listen(this.scroller, 'scroll', this.scrollerListener);
+			Mojo.Event.stopListening(this.photoList, Mojo.Event.hold, this.onHoldListener);
+
+			Mojo.Event.stopListening(this.photoList, Mojo.Event.tap, this.onTapListener);
+			Mojo.Event.stopListening($('float_all'), Mojo.Event.tap, this.onTapListener);
 		}
 	};
 })());

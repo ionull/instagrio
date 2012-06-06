@@ -7,21 +7,19 @@ var AppFormatter = {
         var d = new Date(time);
         return d.toRelativeTime(1500);
     },
-    location: function(n, model){
-        if (n != null) 
-            return n['name'];
-        else 
-            return '';
-    },
+	location: function(n, model) {
+		if(n && n.name && n.latitude && n.longitude) {
+			return "<p class='location' lat='" + n.latitude + "'" + "lng='" + n.longitude + "'>" + n.name + "</p>";
+		} else {
+			return '';
+		}
+	},
 	user: function(n, model){
 		if(n == null) return '';
-		//Mojo.Log.info(this.TAG, 'onUserFormatted ' + Mojo.Log.propertiesAsString(n, true));
-		//return 'javascript:AppHandler.onUserClicked(' + n.id + ');';
-		var index = AppHandler.photoListHelper.modelList.items.indexOf(model);
-		return 'javascript:AppHandler.onUserClicked(' + index + ');';
+		return 'userInfo photoUser';
 	},
 	user_nolink: function(n, model) {
-		return '#';
+		return '';
 	},
 	likesCount: function(n, model) {
 		if(n) {
@@ -31,12 +29,14 @@ var AppFormatter = {
 			} else {
 				img = 'unliked';
 			}
-			var like = '';
+			var like = n.count + '&nbsp;';
+			/*
 			if(n.count > 1) {
 				like = n.count + ' likes';
 			} else {
 				like = n.count + ' like';
 			}
+			*/
 			like = "<div class='likeContent " + img + "' data-id='" + model.id + "'/>" + like + "</div>";
 			return like;
 		} else {

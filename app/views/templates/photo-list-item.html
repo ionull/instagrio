@@ -1,11 +1,11 @@
 <li style="position:relative;margin-bottom:7px;" id="photo_#{id}">
 	  <span class="time floating">#{-created_timeFormatted}</span>
 	  <div class="info floating" style="overflow:hidden;padding-left:46px;height:46px;">
-	  	<a href="#{-userFormatted}" style="position:absolute;top:0;left:0;padding-top:5px;">
-	  	    <img src="#{user.profile_picture}" class='avatar' alt="" style="width:40px;height:40px;"/>
+	  	<a href="#" style="position:absolute;top:0;left:0;padding-top:5px;">
+	  	    <img src="#{user.profile_picture}" class="avatar #{-userFormatted}" data-id="#{id}" alt="" style="width:40px;height:40px;"/>
 	    </a>
-	    <a href="#{-userFormatted}" class='username'><span>#{user.username}</span></a>
-		<p class='location'>#{-locationFormatted}</p>
+	    <a href="#" class="username"><span class="#{-userFormatted}" data-id="#{id}">#{user.username}</span></a>
+    #{-locationFormatted}
 	  </div>
     <div width="100%" style="padding-top:7px">
 	    <img src="#{images.low_resolution.url}" data-action="image" data-id="#{id}" width="100%" style="min-height:#{-imagesFormatted};">

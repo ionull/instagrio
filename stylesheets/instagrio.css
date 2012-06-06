@@ -70,6 +70,44 @@ body {
 	color: white;
 }
 
+/* photo tool bar */
+#tool-bar {
+	padding-top: 30px;
+	width:100%;
+}
+.tool-bar {
+	padding-top:7px;
+	background:rgba(0,0,0,0.8);
+}
+.tool-bar li {
+    float: left;
+    width: 33%;
+    text-align: center
+}
+
+.tool-bar li span {
+    padding: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    padding-top: 35px;
+}
+
+.tool-bar #comment span {
+  background: url(../images/icons/comment.png) no-repeat top;
+}
+
+.tool-bar #save span {
+  background: url(../images/icons/save.png) no-repeat top;
+}
+
+.tool-bar #like span {
+  background: url(../images/icons/love.png) no-repeat top;
+}
+
+.tool-bar #cancel span {
+  background: url(../images/icons/cancel.png) no-repeat top;
+}
+
 /* feed item */
 ol, ul {
     list-style: none;

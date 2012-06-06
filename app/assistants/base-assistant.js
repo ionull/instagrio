@@ -17,5 +17,8 @@ var BaseAssistant = Class.create({
 	cleanup: function(){
 		Mojo.Log.info('base cleanup');
 		AppMenu.get().dePrevent(this.baseFirstEl);
+		if(this.photoListHelper) {
+			this.photoListHelper.cleanup();
+		}
 	}
 });
