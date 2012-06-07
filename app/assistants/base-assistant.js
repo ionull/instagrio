@@ -13,6 +13,7 @@ var BaseAssistant = Class.create({
 	deactivate: function(){
 		Mojo.Log.info('base deactivate');
 		AppMenu.get().dePrevent(this.baseFirstEl);
+		AppMenu.get().keepFolding();
 	},
 	cleanup: function(){
 		Mojo.Log.info('base cleanup');

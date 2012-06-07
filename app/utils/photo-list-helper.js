@@ -1,6 +1,7 @@
 var PhotoListHelper = Class.create((function() {
 	var private_fn = {
 		onScroll: function() {
+			AppMenu.get().keepFolding();
 			//Mojo.Log.info('scrolling');
 			//Mojo.Log.info(this.TAG, this.photoList.innerHTML);
 			var floatBar = $('float_bar');

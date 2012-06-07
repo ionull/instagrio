@@ -7,6 +7,8 @@ var PhotoGalleryAssistant = Class.create(BaseAssistant, {
 	},
 	setup: function() {
 		var that = this;
+		//hide menu
+		AppMenu.get().circle.hide();
 		this.controller.setupWidget('photo-gallery', this.attributes = {
 			noExtractFS: true
 		},
@@ -29,6 +31,9 @@ var PhotoGalleryAssistant = Class.create(BaseAssistant, {
 
 		this.photoGallery = this.controller.get('photo-gallery');
 		Mojo.Event.listen(this.photoGallery, Mojo.Event.hold, this.onHold.bind(this));
+	},
+	cleanup: function() {
+		AppMenu.get().circle.show();
 	},
 	onHold: function(event) {
 		var that = this;

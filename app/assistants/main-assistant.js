@@ -17,7 +17,8 @@ var MainAssistant = Class.create(BaseAssistant, (function() {
 				}
 			}
 			$('float_all').hide();
-			AppMenu.get().show();
+			//AppMenu.get().show();
+			AppMenu.get().showToggle();
 		},
 		setup: function($super) {
 			Mojo.Log.info(this.TAG, 'setup');
