@@ -30,10 +30,12 @@ var PhotoGalleryAssistant = Class.create(BaseAssistant, {
 		});
 
 		this.photoGallery = this.controller.get('photo-gallery');
-		Mojo.Event.listen(this.photoGallery, Mojo.Event.hold, this.onHold.bind(this));
+		this.onHoldListener = this.onHold.bind(this);
+		Mojo.Event.listen(this.photoGallery, Mojo.Event.hold, this.onHoldListener);
 	},
 	cleanup: function() {
-		AppMenu.get().circle.show();
+		AppMenu.get().showToggle();
+		Mojo.Event.stopListening(this.photoGallery, Mojo.Event.hold, this.onHoldListener);
 	},
 	onHold: function(event) {
 		var that = this;
