@@ -133,6 +133,11 @@ ol, ul {
 	text-overflow: clip;
 }
 
+.comment {
+	color: #000000;
+	font-weight: normal;
+}
+
 .counts {
 	color: #A1AC88;	
     font-weight: bold;
