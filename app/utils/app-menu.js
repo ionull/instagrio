@@ -25,6 +25,8 @@ AppMenu.prototype = {
 	},
 	toggggle: function() {
 		var that = this;
+		this.navBg = $('nav-bg');
+		this.navBg.hide();
 		this.baseButton = $('base-button');
 		this.circle = $('container-circle');
 		this.btns = this.circle.select('[class="btn-toggle"]');
@@ -33,27 +35,51 @@ AppMenu.prototype = {
 		}
 		//toggle button
 		this.baseButton.observe('click', function() {
-			that.toggleMenu();
+			//that.toggleMenu();
 		}.bind(this));
 		//buttons listener
 		this.btns.each(function(i) { (function(i) {
 				i.observe('click', function() {
-					that.onToggleItem(i);
-					that.toggleMenu();
+					//that.onToggleItem(i);
+					//that.toggleMenu();
 				});
 			})(i);
+		});
+
+		//nav bg click
+		this.navBg.observe('click', function(e) {
+			var target = e.target;
+			//AppHandler.alert('on nav bg: ' + target.id);
+		});
+		this.circle.observe('click', function(e) {
+			var target = e.target;
+			if(!(target.id)) {
+				target = target.parentNode;
+			}
+			if(!(target.id)) {
+				target = target.parentNode;
+			}
+			if(target.id == 'base-button') {
+				that.toggleMenu();
+			} else {
+				that.onToggleItem(target);
+			}
 		});
 	},
 	toggleMenu: function() {
 		var that = this;
 		if (AppMenu.toggled) {
 			//hide it
+			//that.navBg.removeClassName('open');
+			//this.navBg.hide();
 			that.baseButton.removeClassName('open');
 			that.btns.each(function(i) {
 				i.removeClassName('open');
 			});
 		} else {
 			//show it
+			//this.navBg.show();
+			//that.navBg.addClassName('open');
 			that.baseButton.addClassName('open');
 			that.btns.each(function(i) {
 				i.addClassName('open');
@@ -99,6 +125,7 @@ AppMenu.prototype = {
 	onToggleItem: function(which) {
 		var id = which.id;
 		if(id && id.indexOf('nav-') >= 0) {
+			this.toggleMenu();
 			this.menuTo(id.replace('nav-', ''));
 			AppHandler.alert('pulling..');
 		}

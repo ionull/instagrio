@@ -76,6 +76,7 @@ var PhotoListHelper = Class.create((function() {
 		},
 		onTap: function(event) {
 			PhotoListHelper.timeTap = new Date();
+			//AppHandler.alert('onTap!');
 			if (PhotoListHelper.timeHold && (( + (PhotoListHelper.timeTap)) - ( + (PhotoListHelper.timeHold.getTime())) < 500)) {
 				return;
 			}
@@ -132,6 +133,10 @@ var PhotoListHelper = Class.create((function() {
 					}
 				}
 			}
+		},
+		onHoldEnd: function(event) {
+			PhotoListHelper.timeHold = new Date();
+			//AppHandler.alert('onHoldEnd!');
 		},
 		onHold: function(event) {
 			PhotoListHelper.timeHold = new Date();
@@ -219,7 +224,8 @@ var PhotoListHelper = Class.create((function() {
 					user: this.linkable ? AppFormatter.user.bind(this) : AppFormatter.user_nolink.bind(this),
 					'likes': AppFormatter.likesCount.bind(this),
 					comments: AppFormatter.comments.bind(this),
-					images: AppFormatter.imageHeight.bind(this)
+					images: AppFormatter.images.bind(this),
+					user_has_liked: AppFormatter.imageHeight.bind(this)
 				},
 				uniquenessProperty: 'id',
 				fixedHeightItems: false,
@@ -244,6 +250,8 @@ var PhotoListHelper = Class.create((function() {
 			this.onHoldListener = private_fn.onHold.bind(this);
 			//Mojo.Event.listen(this.controller.document, Mojo.Event.hold, this.onHoldListener);
 			Mojo.Event.listen(this.photoList, Mojo.Event.hold, this.onHoldListener);
+			this.onHoldEndListener = private_fn.onHoldEnd.bind(this);
+			Mojo.Event.listen(this.photoList, Mojo.Event.holdEnd, this.onHoldEndListener);
 
 			this.onTapListener = private_fn.onTap.bind(this);
 			Mojo.Event.listen(this.photoList, Mojo.Event.tap, this.onTapListener);
@@ -261,6 +269,7 @@ var PhotoListHelper = Class.create((function() {
 			Mojo.Event.stopListening(this.scroller, 'scroll', this.scrollerListener);
 			Mojo.Event.stopListening(this.scroller, 'mousedown', this.mousedownListener);
 			Mojo.Event.stopListening(this.photoList, Mojo.Event.hold, this.onHoldListener);
+			Mojo.Event.stopListening(this.photoList, Mojo.Event.holdEnd, this.onHoldEndListener);
 
 			Mojo.Event.stopListening(this.photoList, Mojo.Event.tap, this.onTapListener);
 			Mojo.Event.stopListening($('float_all'), Mojo.Event.tap, this.onTapListener);

@@ -32,10 +32,13 @@ var PhotoGalleryAssistant = Class.create(BaseAssistant, {
 		this.photoGallery = this.controller.get('photo-gallery');
 		this.onHoldListener = this.onHold.bind(this);
 		Mojo.Event.listen(this.photoGallery, Mojo.Event.hold, this.onHoldListener);
+		this.onWindowResizeHandler = this.onWindowResize.bind(this);
+		Mojo.Event.listen(this.controller.window, 'resize', this.onWindowResizeHandler);
 	},
 	cleanup: function() {
 		AppMenu.get().showToggle();
 		Mojo.Event.stopListening(this.photoGallery, Mojo.Event.hold, this.onHoldListener);
+		Mojo.Event.stopListening(this.controller.window, 'resize', this.onWindowResizeHandler);
 	},
 	onHold: function(event) {
 		var that = this;
@@ -48,8 +51,12 @@ var PhotoGalleryAssistant = Class.create(BaseAssistant, {
 	},
 	getPhoto: function(item) {
 		if (item) {
-			//return item.images.standard_resolution.url;
-			return item.images.low_resolution.url;
+			var sHeight = Mojo.Environment.DeviceInfo.screenWidth;
+			if (sHeight > 500) {
+				return item.images.standard_resolution.url;
+			} else {
+				return item.images.low_resolution.url;
+			}
 		} else {
 			return '';
 		}
@@ -70,6 +77,11 @@ var PhotoGalleryAssistant = Class.create(BaseAssistant, {
 		this.controller.stageController.setWindowOrientation('up');
 		this.photoGallery.mojo.manualSize(Mojo.Environment.DeviceInfo.screenWidth, Mojo.Environment.DeviceInfo.screenHeight);
 		this.setUrls();
+	},
+	onWindowResize: function(event) {
+		if(this.photoGallery && this.photoGallery.mojo) {
+			this.photoGallery.mojo.manualSize(this.controller.window.innerWidth, this.controller.window.innerHeight);
+		}
 	}
 });
 

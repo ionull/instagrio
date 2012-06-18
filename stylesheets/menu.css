@@ -15,9 +15,10 @@
       top: 0;
       left: 0;
       border-radius: 35px;
+      border: 1px solid #B5C491;
       height: 50px;
       width: 50px;
-      background: #fff;
+      background: rbga(0,0,0,.8);
       -webkit-box-shadow: 0px 1px 3px rgba(0,0,0,.5);
       -moz-box-shadow: 0px 1px 3px rgba(0,0,0,.5);
       -o-box-shadow: 0px 1px 3px rgba(0,0,0,.5);
@@ -51,20 +52,16 @@
       -ms-transform: rotate(765deg);
     }
     
+    /*#db3a2b --> a1ac88
+     * #cf0404 --> B5C491
+     */
     #base-button div{
       margin: 4px;
       height: 40px;
       width: 40px;
-      background: #db3a2b; /* Old browsers */
-      background: -moz-linear-gradient(top,  #db3a2b 0%, #cf0404 100%); /* FF3.6+ */
-      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#db3a2b), color-stop(100%,#cf0404)); /* Chrome,Safari4+ */
-      background: -webkit-linear-gradient(top,  #db3a2b 0%,#cf0404 100%); /* Chrome10+,Safari5.1+ */
-      background: -o-linear-gradient(top,  #db3a2b 0%,#cf0404 100%); /* Opera 11.10+ */
-      background: -ms-linear-gradient(top,  #db3a2b 0%,#cf0404 100%); /* IE10+ */
-      background: linear-gradient(top,  #db3a2b 0%,#cf0404 100%); /* W3C */
-      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#db3a2b', endColorstr='#cf0404',GradientType=0 ); /* IE6-9 */
+      background: #A1AC88; /* Old browsers */
       border-radius: 25px;
-      border: 1px solid #cf0404;
+      border: 1px solid #fff;
       line-height: 36px;
       text-align: center;
       color: #fff;
@@ -78,9 +75,10 @@
       height: 50px;
       width: 50px;
       border-radius: 25px;
+      border: 1px solid #B5C491;
       top: 0px;
       left: 0px;
-      background: #fff;
+      background: rbga(0,0,0,.8);
       -webkit-transition: all 250ms;
       -moz-transition: all 250ms;
       -o-transition: all 250ms;
@@ -94,13 +92,11 @@
     }
     
     .btn-toggle.open{
+      border: 1px solid #000;
       transition: all 350ms;
       -webkit-transition: all 350ms;
       -webkit-transition-timing-function: cubic-bezier(0.250, 0.250, 0.400, 1); /* older webkit */
       -webkit-transition-timing-function: cubic-bezier(0.250, 0.250, 0.400, 1.650); 
-      -moz-transition-timing-function: cubic-bezier(0.250, 0.250, 0.400, 1.650); 
-      -ms-transition-timing-function: cubic-bezier(0.250, 0.250, 0.400, 1.650); 
-      -o-transition-timing-function: cubic-bezier(0.250, 0.250, 0.400, 1.650); 
       transition-timing-function: cubic-bezier(0.250, 0.250, 0.400, 1.650); /* custom */
     }
     
@@ -117,33 +113,23 @@
     }
     
     #nav-home.open{
-      top: -125px;
-      left: 25px;
-    }
-    
-    #nav-home.open.clicked{
       top: -135px;
       left: 15px;
     }
     
     #nav-hot.open{
-      top: -105px;
-      left: 80px;
+      top: -110px;
+      left: 70px;
     }
     
     #nav-mine.open{
-      top: -75px;
-      left: 125px;
+      top: -68px;
+      left: 115px;
     }
     
     #nav-liked.open{
-      top: -30px;
-      left: 160px;
-    }
-    
-    #button-5.open{
-      left: 175px;
-      top: 25px;
+      top: -13px;
+      left: 140px;
     }
     
     /* Hack for webkit. WTF?  -  Apparently webkit is off by 10
@@ -155,3 +141,23 @@
       }
       
     }
+
+
+.pie { width:400px; height:400px; background:rgba(0,0,0,0.3); border-radius:200px; position:absolute; clip:rect(0px,200px,400px,0px);  -webkit-transform:rotate(70deg); }
+.hold { width:400px; height:400px; position:absolute; clip:rect(200px,400px,400px,0px); }
+#nav-bg { width:0px; height:0px;  position:absolute; border-radius:200px; left: -178px; bottom:18px;overflow: hidden;}
+#nav-bg.open {
+  width:400px;
+  height:200px;
+  position:absolute;
+  border-radius:200px;
+  left: -178px;
+  bottom:18px;
+  overflow: hidden;
+  -webkit-transition-timing-function: cubic-bezier(0.250, 0.250, 0.400, 1.650); 
+}
+
+.hold1 {-webkit-transform:rotate(110deg); }
+.hold2 {-webkit-transform:rotate(132.5deg); }
+.hold3 {-webkit-transform:rotate(155deg); }
+.hold4 {-webkit-transform:rotate(177.5deg); }
