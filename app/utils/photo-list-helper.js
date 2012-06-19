@@ -128,7 +128,7 @@ var PhotoListHelper = Class.create((function() {
 				for (var now in that.modelList.items) {
 					var curr = that.modelList.items[now];
 					if (curr.id == media) {
-						that.controller.stageController.pushScene('photo-gallery', curr, that.modelList.items);
+						that.controller.stageController.pushScene('photo-gallery', curr, that.modelList.items, that.assistant);
 						break;
 					}
 				}
@@ -163,7 +163,7 @@ var PhotoListHelper = Class.create((function() {
 					that.controller.showDialog({
 						template:
 						'templates/photo-tap-dialog',
-						assistant: new PhotoTapAssistant(that, item, target),
+						assistant: new PhotoTapAssistant(that, item, target, that.assistant),
 						preventCancel: false
 					});
 					break;
@@ -222,6 +222,7 @@ var PhotoListHelper = Class.create((function() {
 					location: AppFormatter.location.bind(this),
 					created_time: AppFormatter.time.bind(this),
 					user: this.linkable ? AppFormatter.user.bind(this) : AppFormatter.user_nolink.bind(this),
+					caption: AppFormatter.caption,
 					'likes': AppFormatter.likesCount.bind(this),
 					comments: AppFormatter.comments.bind(this),
 					images: AppFormatter.images.bind(this),

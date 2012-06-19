@@ -53,7 +53,17 @@ CommentAddAssistant.prototype = {
 		} else {
 			AppHandler.alert('commenting..');
 			AppSDK.postMediaComments({
-				onSuccess: function() {
+				onSuccess: function(result) {
+					var json = result.responseJSON;
+					that.media.comments.count++;
+					that.media.comments.data.push(json.data);
+					//Mojo.Log.error('json result: ' + result.responseText);
+					var commentElement = $$('#photo_' + that.media.id + ' [id=comment-info]').first();
+					if(commentElement) {
+						//notify comment post
+						var commentItem = AppFormatter.comments(that.media.comments, that.media);
+						commentElement.innerHTML = commentItem;
+					}
 					that.widget.mojo.close();
 				},
 				onFailure: function(e) {

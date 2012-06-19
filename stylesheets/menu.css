@@ -141,23 +141,3 @@
       }
       
     }
-
-
-.pie { width:400px; height:400px; background:rgba(0,0,0,0.3); border-radius:200px; position:absolute; clip:rect(0px,200px,400px,0px);  -webkit-transform:rotate(70deg); }
-.hold { width:400px; height:400px; position:absolute; clip:rect(200px,400px,400px,0px); }
-#nav-bg { width:0px; height:0px;  position:absolute; border-radius:200px; left: -178px; bottom:18px;overflow: hidden;}
-#nav-bg.open {
-  width:400px;
-  height:200px;
-  position:absolute;
-  border-radius:200px;
-  left: -178px;
-  bottom:18px;
-  overflow: hidden;
-  -webkit-transition-timing-function: cubic-bezier(0.250, 0.250, 0.400, 1.650); 
-}
-
-.hold1 {-webkit-transform:rotate(110deg); }
-.hold2 {-webkit-transform:rotate(132.5deg); }
-.hold3 {-webkit-transform:rotate(155deg); }
-.hold4 {-webkit-transform:rotate(177.5deg); }

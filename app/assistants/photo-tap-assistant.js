@@ -10,7 +10,7 @@ PhotoTapAssistant.prototype = {
 	setup: function(widget) {
 		this.widget = widget;
 
-		if(this.media.user_has_liked) {
+		if (this.media.user_has_liked) {
 			$('like').outerHTML = '';
 			$('comment').setStyle({
 				'width': '50%'
@@ -35,7 +35,7 @@ PhotoTapAssistant.prototype = {
 		var item = that.media;
 		var target = that.target;
 		var t = event.target;
-		if(!(t.id)) {
+		if (! (t.id)) {
 			t = t.parentNode;
 		}
 		Mojo.Log.error('tapppp---->' + t.id);
@@ -77,24 +77,33 @@ PhotoTapAssistant.prototype = {
 						item['user_has_liked'] = true;
 						item['likes']['count'] = (item['likes']['count'] + 1);
 						//notify like changed
-						var p = target.parentNode;
-						var children = Element.childElements($(p));
-						children.each(function(ins) {
-							var s = $(ins);
-							if (s.hasClassName('like')) {
-								var likes = Element.childElements(s);
-								likes.each(function(els) {
-									var e = $(els);
-									if (e.hasClassName('likeContent')) {
-										Mojo.Log.error('like element got------->');
-										if (e.hasClassName('unliked')) {
-											e.removeClassName('unliked');
-										}
-										e.addClassName('liked');
-									}
-								});
+						var likeElement = $$('#photo_' + item.id + ' [class~=likeContent]').first();
+						if (likeElement) {
+							if (likeElement.hasClassName('unliked')) {
+								likeElement.removeClassName('unliked');
 							}
-						});
+							likeElement.addClassName('liked');
+							//Mojo.Log.error('like element: ' + likeElement.outerHTML);
+						} else {
+							var p = target.parentNode;
+							var children = Element.childElements($(p));
+							children.each(function(ins) {
+								var s = $(ins);
+								if (s.hasClassName('like')) {
+									var likes = Element.childElements(s);
+									likes.each(function(els) {
+										var e = $(els);
+										if (e.hasClassName('likeContent')) {
+											Mojo.Log.error('like element got------->');
+											if (e.hasClassName('unliked')) {
+												e.removeClassName('unliked');
+											}
+											e.addClassName('liked');
+										}
+									});
+								}
+							});
+						}
 						//that.controller.modelChanged(that.modelList);
 					}
 				},

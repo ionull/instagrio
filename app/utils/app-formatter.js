@@ -51,6 +51,12 @@ var AppFormatter = {
 		}
 		return 'user-item-light';
 	},
+	caption: function(n, model) {
+		if(n) {
+			return n.text;
+		}
+		return '';
+	},
 	comments: function(n, model) {
 		if (n && n.count > 0) {
 			var count = '';
