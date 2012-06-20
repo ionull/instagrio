@@ -1,18 +1,18 @@
 <li style="position:relative;margin-bottom:7px;" id="photo_#{id}">
-	  <span class="time floating">#{-created_timeFormatted}</span>
-	  <div class="info floating" style="overflow:hidden;padding-left:46px;height:46px;">
-	  	<a href="#" style="position:absolute;top:0;left:0;padding-top:5px;">
-	  	    <img src="#{user.profile_picture}" class="avatar #{-userFormatted}" data-id="#{id}" alt="" style="width:40px;height:40px;"/>
-	    </a>
-	    <a href="#" class="username"><span class="#{-userFormatted}" data-id="#{id}">#{user.username}</span></a>
-    #{-locationFormatted}
-	  </div>
-    <div width="100%" style="padding-top:7px">
-	    <img src="#{-imagesFormatted}" data-action="image" data-id="#{id}" width="100%" style="min-height:#{-user_has_likedFormatted};">
-      <div class="comment">#{-captionFormatted}</div>
-      <div id="like-icon" class="like" style="position: absolute;right: 15px; top: 70px;">
-        #{-likesFormatted}
-      </div>
-    </div>
-    <div id="comment-info" class="comment">#{-commentsFormatted}</div>
+<span class="time floating">#{-created_timeFormatted}</span>
+<div class="info floating" style="overflow:hidden;padding-left:46px;height:46px;">
+  <a href="#" style="position:absolute;top:0;left:0;padding-top:5px;">
+    <img src="#{user.profile_picture}" class="avatar #{-userFormatted}" data-id="#{id}" alt="" style="width:40px;height:40px;"/>
+  </a>
+  <a href="#" class="username"><span class="#{-userFormatted}" data-id="#{id}">#{user.username}</span></a>
+  #{-locationFormatted}
+</div>
+<div width="100%" style="padding-top:7px">
+  <img src="#{-imagesFormatted}" data-action="image" data-id="#{id}" width="100%" style="min-height:#{-user_has_likedFormatted};">
+  <div class="comment">#{-captionFormatted}</div>
+  <div id="like-icon" class="like" style="position: absolute;right: 15px; top: 70px;">
+    #{-likesFormatted}
+  </div>
+</div>
+<div id="comment-info" class="comment">#{-commentsFormatted}</div>
 </li>

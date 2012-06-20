@@ -140,13 +140,35 @@ ol, ul {
 }
 
 .counts {
-	color: #A1AC88;	
-    font-weight: bold;
+    position: relative;
+    float: left;
+    width: 27%;
+    overflow: hidden;
+    font-size: 14px;
+    text-align: center;
+    background: white;
+    margin-right: 5px;
+    margin-top: 5px;
+    display:block;
 }
 
-.counts-value {
+.counts .counts-title{
+	color: #A1AC88;	
+  font-weight: bold;
+}
+
+.counts .counts-num{
 	color: #757575;	
-    font-weight: bold;
+  font-weight: bold;
+	white-space:nowrap;
+	word-break:keep-all;
+	overflow:hidden;
+	text-overflow:ellipsis;
+}
+
+.content {
+  color: #A1AC88;	
+  font-weight: bold;
 }
 
 .location {

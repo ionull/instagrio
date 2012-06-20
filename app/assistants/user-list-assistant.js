@@ -1,7 +1,9 @@
 var UserListAssistant = Class.create(BaseAssistant, {
-	initialize: function($super, media) {
+	initialize: function($super, action, media) {
 		$super(media);
+		this.action = action;
 		this.media = media;
+		//AppHandler.alert('on user list:' + action);
 	},
 	setup: function() {
 		var that = this;
@@ -20,7 +22,7 @@ var UserListAssistant = Class.create(BaseAssistant, {
 			listTitle: 'user list'
 		});
 		Mojo.Event.listen(this.controller.get('user-list'), Mojo.Event.listTap, this.listWasTapped.bind(this));
-		AppSDK.getMediaLikes({
+		var callbacks = {
 			onSuccess: function(result) {
 				var json = result.responseJSON;
 				var data = $A(json.data);
@@ -38,8 +40,20 @@ var UserListAssistant = Class.create(BaseAssistant, {
 				that.controller.modelChanged(that.modelList);
 			},
 			onFailure: function() {}
-		},
-		this.media);
+		};
+		switch(this.action) {
+			case 'like':
+			AppSDK.getMediaLikes(callbacks, this.media);
+			break;
+			case 'foed':
+			AppSDK.getUsersFollowedBy(callbacks, this.media);
+			break;
+			case 'foing':
+			AppSDK.getUsersFollows(callbacks, this.media);
+			break;
+			default:
+			break;
+		}
 	},
 	listWasTapped: function(event) {
 		this.controller.stageController.pushScene('user', {

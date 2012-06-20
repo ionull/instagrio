@@ -87,7 +87,7 @@ var PhotoListHelper = Class.create((function() {
 			if (s.hasClassName('likeContent')) {
 				//show like list
 				var media = target.getAttribute('data-id');
-				that.controller.stageController.pushScene('user-list', media);
+				that.controller.stageController.pushScene('user-list', 'like', media);
 			} else if (s.hasClassName('commentsCount')) {
 				var media = target.getAttribute('data-id');
 				that.controller.stageController.pushScene('comment-list', media);

@@ -1,14 +1,24 @@
-<div class="userinfo" style="overflow:hidden;padding:15px;padding-left:96px;height:77px;">
-	<a href="#{-userFormatted}" style="position:absolute;top:10px;left:10px;padding-top:7px;">
-	   <img id='user-avatar' src="#{user.profile_picture}" class='avatar-middle' 
+<div class="userinfo" style="overflow:hidden;padding:15px;padding-left:96px;height:85px;">
+	<a href="" style="position:absolute;top:10px;left:10px;padding-top:7px;">
+	   <img id='user-avatar' src="" class='avatar-middle' 
 	   		style="width:80px;height:80px;border-radius: 10px;"/>
 	</a>
 	<p id='username' class='username name-large'>#{user.username}&nbsp;</p>
-	<p id='follow-info'>
-		<span class='counts'>PO</span><span id='counts-po' class='counts-value'>&nbsp;:0</span>
-		<span class='counts'>FOED</span><span id='counts-foed' class='counts-value'>&nbsp;:0</span>
-		<span class='counts'>FO</span><span id='counts-fo' class='counts-value'>&nbsp;:0</span>
-	</p>
+	<div id='counts-area'>
+    <div class="counts post">
+      <div class="counts-title post">POST</div>
+      <div class="counts-num post" id='counts-po'>0</div>
+    </div>
+    <div class="counts foed">
+      <div class="counts-title foed">FOED</div>
+      <div class="counts-num foed" id='counts-foed'>0</div>
+    </div>
+    <div class="counts foing">
+      <div class="counts-title foing">FOING</div>
+      <div class="counts-num foing" id='counts-fo'>0</div>
+    </div>
+    <div class="clear"></div>
+	</div>
 	<div style="margin-top:5px;"><button id="btn-follow" class="clean-gray">follow</button></div>
 </div>
 <div style='margin:7px;'>

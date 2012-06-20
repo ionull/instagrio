@@ -10,27 +10,31 @@ var UserAssistant = Class.create(BaseAssistant, {
 		Mojo.Log.info(this.TAG, 'setup');
 		var that = this;
 
-		$('user-avatar').src = that.opts.user.profile_picture;
+		var userAvatar = $('user-avatar');
+		userAvatar.src = that.opts.user.profile_picture;
+		userAvatar.observe('click', function(e) {
+			//TODO show large avatar?
+			//AppHandler.alert('on avatar click');
+			e.stop();
+		});
 		$('username').innerHTML = that.opts.user.username;
 		AppSDK.getUser({
 			onSuccess: function(response) {
 				Mojo.Log.info('getUser:' + response.responseText)
 				var result = response.responseJSON;
-				$('user-avatar').src = result.data.profile_picture;
+				userAvatar.src = result.data.profile_picture;
 				if (result.data.full_name != null && result.data.full_name != '') {
 					$('username').innerHTML = result.data.full_name;
 				} else {
 					$('username').innerHTML = result.data.username;
 				}
 				if (result.data.counts != null) {
-					$('counts-po').innerHTML = ' :' + result.data.counts.media;
-					$('counts-foed').innerHTML = ' :' + result.data.counts.followed_by;
-					$('counts-fo').innerHTML = ' :' + result.data.counts.follows;
+					$('counts-po').innerHTML = result.data.counts.media;
+					$('counts-foed').innerHTML = result.data.counts.followed_by;
+					$('counts-fo').innerHTML = result.data.counts.follows;
 				}
 			}.bind(this),
-			onFailure: function() {
-
-			}
+			onFailure: function() {}
 		},
 		this.uid);
 
@@ -39,7 +43,7 @@ var UserAssistant = Class.create(BaseAssistant, {
 			btnFollow.outerHTML = '<p class="username">Hmmm, that\'s you, a ha!</p>';
 		} else {
 			btnFollow.observe('click', function() {
-				if(btnFollow.innerHTML == 'requesting') {
+				if (btnFollow.innerHTML == 'requesting') {
 					AppHandler.alert('requesting');
 					return;
 				}
@@ -48,18 +52,18 @@ var UserAssistant = Class.create(BaseAssistant, {
 					onSuccess: function(result) {
 						var json = result.responseJSON;
 						if (json.meta.code == 200) {
-							switch(json.data.outgoing_status) {
-								case AppSDK.RELATION_FOLLOWING:
-									btnFollow.innerHTML = 'unfollow';
-									AppHandler.alert('follow success!');
+							switch (json.data.outgoing_status) {
+							case AppSDK.RELATION_FOLLOWING:
+								btnFollow.innerHTML = 'unfollow';
+								AppHandler.alert('follow success!');
 								break;
-								case AppSDK.RELATION_NONE:
-									btnFollow.innerHTML = 'follow';
-									AppHandler.alert('unfollow success!');
+							case AppSDK.RELATION_NONE:
+								btnFollow.innerHTML = 'follow';
+								AppHandler.alert('unfollow success!');
 								break;
-								case AppSDK.RELATION_REQUESTED:
-									btnFollow.innerHTML = 'requesting';
-									AppHandler.alert('request success!');
+							case AppSDK.RELATION_REQUESTED:
+								btnFollow.innerHTML = 'requesting';
+								AppHandler.alert('request success!');
 								break;
 							}
 						}
@@ -79,13 +83,29 @@ var UserAssistant = Class.create(BaseAssistant, {
 					var outStatus = result['data']['outgoing_status'];
 					if (outStatus == AppSDK.RELATION_FOLLOWING) {
 						btnFollow.innerHTML = 'unfollow';
-					} else if(outStatus == AppSDK.RELATION_REQUESTED) {
+					} else if (outStatus == AppSDK.RELATION_REQUESTED) {
 						btnFollow.innerHTML = 'requesting';
 					}
 				},
 				onFailure: function() {}
 			},
 			this.uid);
+		}
+
+		this.countsArea = $('counts-area');
+		if (this.countsArea) {
+			this.countsHandler = function(e) {
+				//AppHandler.alert('on counts:' + e.target.id);
+				var target = e.target;
+				if (target.hasClassName('post')) {
+					//
+				} else if (target.hasClassName('foed')) {
+					that.controller.stageController.pushScene('user-list', 'foed', that.uid);
+				} else if (target.hasClassName('foing')) {
+					that.controller.stageController.pushScene('user-list', 'foing', that.uid);
+				}
+			}.bind(this);
+			Mojo.Event.listen(this.countsArea, 'click', this.countsHandler);
 		}
 
 		var photoListHelper = new PhotoListHelper({
@@ -101,6 +121,11 @@ var UserAssistant = Class.create(BaseAssistant, {
 	},
 	activate: function() {
 		if (AppMenu.get().isShow) AppMenu.get().hide(true);
+	},
+	cleanup: function() {
+		if (this.countsArea) {
+			Mojo.Event.stopListening(this.countsArea, 'click', this.countsHandler);
+		}
 	}
 });
 

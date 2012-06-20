@@ -78,6 +78,7 @@
       border: 1px solid #B5C491;
       top: 0px;
       left: 0px;
+      display:block;
       background: rbga(0,0,0,.8);
       -webkit-transition: all 250ms;
       -moz-transition: all 250ms;
@@ -110,6 +111,7 @@
       text-align: center;
       color: #fff;
       font-size: 12px;
+      display:block;
     }
     
     #nav-home.open{

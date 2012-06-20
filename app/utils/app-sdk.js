@@ -286,3 +286,25 @@ AppSDK.getLocationsSearch = function(callback, lat, lng, distance) {
 
 	AppSDK.loadReq(callback, url, urlParams);
 };
+
+AppSDK.getUsersFollows = function(callback, who) {
+	var url = '/users/' + who + '/follows';
+
+	var urlParams = {
+		'method': 'get',
+		'doing': 'getUsersFollows'
+	}
+
+	AppSDK.loadReq(callback, url, urlParams);
+};
+
+AppSDK.getUsersFollowedBy = function(callback, who) {
+	var url = '/users/' + who + '/followed-by';
+
+	var urlParams = {
+		'method': 'get',
+		'doing': 'getUsersFollowedBy'
+	}
+
+	AppSDK.loadReq(callback, url, urlParams);
+};
