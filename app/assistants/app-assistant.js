@@ -38,6 +38,15 @@ AppAssistant.prototype = {
 			}
 		} else {
 			var stage = Mojo.Controller.stageController;
+			if (stage) {
+				stage.popScenesTo('main');
+				var curr = stage.activeScene();
+				if (!curr || curr.sceneName != 'main') {
+					AppAssistant.helper.verifyAuth(function() {
+						Mojo.Controller.stageController.pushScene('main');
+					});
+				}
+			}
 			if (!stage || ! stage.activeScene()) {
 				AppAssistant.helper.verifyAuth(function() {
 					Mojo.Controller.stageController.pushScene('main');
