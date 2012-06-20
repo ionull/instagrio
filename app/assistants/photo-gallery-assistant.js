@@ -1,9 +1,15 @@
 var PhotoGalleryAssistant = Class.create(BaseAssistant, {
-	initialize: function($super, media, items) {
-		$super(media);
-		this.media = media;
-		this.items = items;
-		this.index = this.items.indexOf(media);
+	initialize: function($super, action, media, items) {
+		$super(action, media, items);
+		this.action = action;
+		if (this.action == 'list') {
+			this.media = media;
+			this.items = items;
+			this.index = this.items.indexOf(media);
+		} else {
+			this.index = - 1;
+			this.items = [];
+		}
 	},
 	setup: function() {
 		var that = this;
@@ -34,6 +40,46 @@ var PhotoGalleryAssistant = Class.create(BaseAssistant, {
 		Mojo.Event.listen(this.photoGallery, Mojo.Event.hold, this.onHoldListener);
 		this.onWindowResizeHandler = this.onWindowResize.bind(this);
 		Mojo.Event.listen(this.controller.window, 'resize', this.onWindowResizeHandler);
+
+		//if dock mode
+		if (that.action == 'dock-mode') {
+			//AppHandler.alert('dockmode');
+			that.startDockMode();
+		}
+	},
+	startDockMode: function() {
+		var that = this;
+		AppSDK.getPopular({
+			onSuccess: function(result) {
+				//AppHandler.alert('dockmode popular');
+				var json = result.responseJSON;
+				//Mojo.Log.error('dock result:' + result.responseText);
+				that.items = json.data;
+				//AppHandler.alert('items length' + that.items.length);
+				if (that.items && that.items.length > 0) {
+					that.index = 0;
+					that.setUrls();
+					that.setDockTimer();
+				}
+			},
+			onFailure: function() {}
+		});
+	},
+	setDockTimer: function() {
+		//AppHandler.alert('dockmode popular start');
+		var that = this;
+		var t = setTimeout(function() {
+			clearTimeout(t);
+			//AppHandler.alert('dockmode popular timeout');
+			if (that.index + 1 == that.items.length) {
+				that.startDockMode();
+			} else {
+				that.index++;
+				that.setUrls();
+				that.setDockTimer();
+			}
+		},
+		10000);
 	},
 	cleanup: function() {
 		AppMenu.get().showToggle();
@@ -43,11 +89,13 @@ var PhotoGalleryAssistant = Class.create(BaseAssistant, {
 	onHold: function(event) {
 		var that = this;
 		//show alert what to do
-		that.controller.showDialog({
-			template: 'templates/photo-tap-dialog',
-			assistant: new PhotoTapAssistant(that, that.items[that.index], event.target),
-			preventCancel: false
-		});
+		if (that.index >= 0) {
+			that.controller.showDialog({
+				template: 'templates/photo-tap-dialog',
+				assistant: new PhotoTapAssistant(that, that.items[that.index], event.target),
+				preventCancel: false
+			});
+		}
 	},
 	getPhoto: function(item) {
 		if (item) {
@@ -63,7 +111,9 @@ var PhotoGalleryAssistant = Class.create(BaseAssistant, {
 	},
 	setUrls: function() {
 		var that = this;
-		this.photoGallery.mojo.centerUrlProvided(this.getPhoto(that.items[that.index]));
+		if (that.index >= 0) {
+			this.photoGallery.mojo.centerUrlProvided(this.getPhoto(that.items[that.index]));
+		}
 		if (this.index > 0) {
 			that.photoGallery.mojo.leftUrlProvided(this.getPhoto(that.items[that.index - 1]));
 		}
@@ -79,7 +129,7 @@ var PhotoGalleryAssistant = Class.create(BaseAssistant, {
 		this.setUrls();
 	},
 	onWindowResize: function(event) {
-		if(this.photoGallery && this.photoGallery.mojo) {
+		if (this.photoGallery && this.photoGallery.mojo) {
 			this.photoGallery.mojo.manualSize(this.controller.window.innerWidth, this.controller.window.innerHeight);
 		}
 	}

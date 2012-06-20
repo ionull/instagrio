@@ -51,6 +51,8 @@ var UserListAssistant = Class.create(BaseAssistant, {
 			case 'foing':
 			AppSDK.getUsersFollows(callbacks, this.media);
 			break;
+			case 'search':
+			AppSDK.getUsersSearch(callbacks, this.media);
 			default:
 			break;
 		}

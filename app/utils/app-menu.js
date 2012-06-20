@@ -94,6 +94,10 @@ AppMenu.prototype = {
 			currentScene.assistant.refresh(opts);
 		} else {
 			Mojo.Controller.stageController.popScenesTo('main', opts);
+			currentScene = Mojo.Controller.stageController.activeScene();
+			if(!currentScene || currentScene.sceneName != 'main') {
+				Mojo.Controller.stageController.pushScene('main');
+			}
 		}
 	},
 	prevent: function(who) {

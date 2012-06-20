@@ -8,6 +8,7 @@
     {"source": "app/assistants/photo-tap-assistant.js"},
     {"source": "app/assistants/comment-add-assistant.js"},
 	{"source": "app/utils/photo-list-helper.js"},
+    {"source": "app/assistants/app-assistant.js"},
     {"source": "app/assistants/stage-assistant.js"},
 	{"source": "app/assistants/base-assistant.js"},
     {

@@ -106,6 +106,19 @@ AppSDK.getUser = function(callback, uid) {
 	AppSDK.loadReq(callback, url, urlParams);
 }
 
+AppSDK.getUsersSearch = function(callback, who) {
+	var url = '/users/search';
+	
+	var urlParams = {
+		'method': 'get',
+		'doing': 'getUsersSearch',
+		'q': who,
+		'count': 100
+	};
+	
+	AppSDK.loadReq(callback, url, urlParams);
+}
+
 AppSDK.getFeed = function(callback) {
 	var url = '/users/self/feed';
 	

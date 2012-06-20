@@ -128,7 +128,7 @@ var PhotoListHelper = Class.create((function() {
 				for (var now in that.modelList.items) {
 					var curr = that.modelList.items[now];
 					if (curr.id == media) {
-						that.controller.stageController.pushScene('photo-gallery', curr, that.modelList.items, that.assistant);
+						that.controller.stageController.pushScene('photo-gallery', 'list', curr, that.modelList.items, that.assistant);
 						break;
 					}
 				}

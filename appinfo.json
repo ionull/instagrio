@@ -5,5 +5,24 @@
 	"type": "web",
 	"main": "index.html",
 	"title": "instagrio",
-	"icon": "icon.png"
+	"icon": "icon.png",
+	"keywords": ["instagram", "photo", "gallery"],
+	"universalSearch": {
+		"search": {
+			"displayName": "Find Instagram User",
+			"url": "bz.tsung.instagrio",
+			"launchParam": {
+				"action": "search-user",
+				"data": "#{searchTerms}"
+			}
+		},
+		"action": {
+			"displayName": "Instagram Exhibition",
+			"url": "bz.tsung.instagrio",
+			"launchParam": {
+				"action": "dock-mode"
+			}
+		}
+	},
+	"dockMode": true
 }
