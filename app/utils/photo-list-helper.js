@@ -6,20 +6,22 @@ var PhotoListHelper = Class.create((function() {
 		onScroll: function() {
 			//Mojo.Log.info('scrolling');
 			//Mojo.Log.info(this.TAG, this.photoList.innerHTML);
-			var floatBar = $('float_bar');
-			var floatAll = $('float_all');
+			var floatBar = this.controller.get('float_bar');
+			var floatAll = this.floatAll;
 			var floatHeight = floatAll.getHeight();
 			var items = this.modelList.items;
 			if (items.length > 0) {
 				//Mojo.Log.info('hacking ' + $('photo_' + items[0].id).cumulativeScrollOffset().top);
-				var firstEl = $('photo_' + items[0].id);
+				//var firstEl = $('photo_' + items[0].id);
+				var firstEl = this.controller.get('photo_' + items[0].id);
 				if (firstEl != null && firstEl.cumulativeScrollOffset().top < 0) {
 					floatAll.hide();
 				}
 			}
 			for (i = 0; i < items.length; ++i) {
 				var pID = items[i].id;
-				var currEl = $('photo_' + pID);
+				//var currEl = $('photo_' + pID);
+				var currEl = this.controller.get('photo_' + pID);
 				//Mojo.Log.info('current pid:' + pID + ' element:' + currEl);
 				if (currEl == null) {
 					continue;
@@ -31,7 +33,8 @@ var PhotoListHelper = Class.create((function() {
 					if (pID == this.modelList.currentFloat) { // && i != 0
 						if (i < items.length - 1) {
 							var pIDNext = items[i + 1].id;
-							var nextEl = $('photo_' + pIDNext);
+							//var nextEl = $('photo_' + pIDNext);
+							var nextEl = this.controller.get('photo_' + pIDNext);
 							var nextTop = nextEl.viewportOffset().top;
 							var floatAndMargin = floatHeight + 7;
 							//Mojo.Log.info('nextTop' + nextTop + ' floatAll height' + floatAndMargin);
@@ -174,7 +177,7 @@ var PhotoListHelper = Class.create((function() {
 		},
 		onSuccess: function(response) {
 			var response_text = response.responseText;
-			Mojo.Log.info('feed ----------->: ' + response.status + response_text);
+			Mojo.Log.error('feed ----------->: ' + response.status + response_text);
 			var json = response.responseJSON;
 			var data = $A(json.data);
 			Mojo.Log.info(this.TAG, data.length);
@@ -256,7 +259,9 @@ var PhotoListHelper = Class.create((function() {
 
 			this.onTapListener = private_fn.onTap.bind(this);
 			Mojo.Event.listen(this.photoList, Mojo.Event.tap, this.onTapListener);
-			Mojo.Event.listen($('float_all'), Mojo.Event.tap, this.onTapListener);
+
+			this.floatAll = this.controller.get('float_all');
+			Mojo.Event.listen(this.floatAll, Mojo.Event.tap, this.onTapListener);
 		},
 		callback: function() {
 			return {
@@ -273,7 +278,7 @@ var PhotoListHelper = Class.create((function() {
 			Mojo.Event.stopListening(this.photoList, Mojo.Event.holdEnd, this.onHoldEndListener);
 
 			Mojo.Event.stopListening(this.photoList, Mojo.Event.tap, this.onTapListener);
-			Mojo.Event.stopListening($('float_all'), Mojo.Event.tap, this.onTapListener);
+			Mojo.Event.stopListening(this.floatAll, Mojo.Event.tap, this.onTapListener);
 		}
 	};
 })());

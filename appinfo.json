@@ -6,6 +6,7 @@
 	"main": "index.html",
 	"title": "instagrio",
 	"icon": "icon.png",
+	"noWindow": true,
 	"keywords": ["instagram", "photo", "gallery"],
 	"universalSearch": {
 		"search": {
@@ -24,5 +25,6 @@
 			}
 		}
 	},
-	"dockMode": true
+	"dockMode": true,
+	"touchstoneMode": "enabled"
 }

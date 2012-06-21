@@ -6,39 +6,41 @@ var UserAssistant = Class.create(BaseAssistant, {
 		this.uid = opts.user.id;
 		this.opts = opts;
 	},
-	setup: function() {
+	setup: function($super) {
+		$super();
 		Mojo.Log.info(this.TAG, 'setup');
 		var that = this;
 
-		var userAvatar = $('user-avatar');
+		var userAvatar = this.controller.get('user-avatar');
 		userAvatar.src = that.opts.user.profile_picture;
 		userAvatar.observe('click', function(e) {
 			//TODO show large avatar?
 			//AppHandler.alert('on avatar click');
 			e.stop();
 		});
-		$('username').innerHTML = that.opts.user.username;
+		var userName = this.controller.get('username');
+		userName.innerHTML = that.opts.user.username;
 		AppSDK.getUser({
 			onSuccess: function(response) {
 				Mojo.Log.info('getUser:' + response.responseText)
 				var result = response.responseJSON;
 				userAvatar.src = result.data.profile_picture;
 				if (result.data.full_name != null && result.data.full_name != '') {
-					$('username').innerHTML = result.data.full_name;
+					userName.innerHTML = result.data.full_name;
 				} else {
-					$('username').innerHTML = result.data.username;
+					userName.innerHTML = result.data.username;
 				}
 				if (result.data.counts != null) {
-					$('counts-po').innerHTML = result.data.counts.media;
-					$('counts-foed').innerHTML = result.data.counts.followed_by;
-					$('counts-fo').innerHTML = result.data.counts.follows;
+					that.controller.get('counts-po').innerHTML = result.data.counts.media;
+					that.controller.get('counts-foed').innerHTML = result.data.counts.followed_by;
+					that.controller.get('counts-fo').innerHTML = result.data.counts.follows;
 				}
 			}.bind(this),
 			onFailure: function() {}
 		},
 		this.uid);
 
-		var btnFollow = $('btn-follow');
+		var btnFollow = this.controller.get('btn-follow');
 		if (this.uid == AppHandler.user.id) {
 			btnFollow.outerHTML = '<p class="username">Hmmm, that\'s you, a ha!</p>';
 		} else {
@@ -92,7 +94,7 @@ var UserAssistant = Class.create(BaseAssistant, {
 			this.uid);
 		}
 
-		this.countsArea = $('counts-area');
+		this.countsArea = this.controller.get('counts-area');
 		if (this.countsArea) {
 			this.countsHandler = function(e) {
 				//AppHandler.alert('on counts:' + e.target.id);
@@ -120,7 +122,6 @@ var UserAssistant = Class.create(BaseAssistant, {
 		AppSDK.getUserMedia(this.callback, this.uid);
 	},
 	activate: function() {
-		if (AppMenu.get().isShow) AppMenu.get().hide(true);
 	},
 	cleanup: function() {
 		if (this.countsArea) {

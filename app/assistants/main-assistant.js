@@ -16,13 +16,13 @@ var MainAssistant = Class.create(BaseAssistant, (function() {
 					}
 				}
 			}
-			$('float_all').hide();
-			//AppMenu.get().show();
-			AppMenu.get().showToggle();
+			//$('float_all').hide();
 		},
 		setup: function($super) {
 			Mojo.Log.info(this.TAG, 'setup');
 			$super();
+			this.floatAll = this.controller.get('float_all');
+			this.floatAll.hide();
 
 			var photoListHelper = new PhotoListHelper({
 				idList: 'feed-list',
@@ -64,7 +64,6 @@ var MainAssistant = Class.create(BaseAssistant, (function() {
 			Mojo.Log.info(this.TAG, 'on activate ' + Mojo.Log.propertiesAsString(event, true));
 			this.refresh(event);
 			$super(event);
-			if (AppMenu.get().isShow) AppMenu.get().show();
 			AppHandler.photoListHelper = this.photoListHelper;
 		},
 		deactivate: function($super, event) {

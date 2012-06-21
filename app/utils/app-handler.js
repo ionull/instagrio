@@ -37,6 +37,8 @@ AppHandler.alert = function(msg) {
 			}, 'CommonAlert', 'CommonAlert');
 };
 
-AppHandler.setAppBackground = function(color){
-	document.body.style.background = color;
+AppHandler.setAppBackground = function(document, color){
+	if(document && document.body) {
+		document.body.style.background = color;
+	}
 };

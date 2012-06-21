@@ -5,7 +5,8 @@ var UserListAssistant = Class.create(BaseAssistant, {
 		this.media = media;
 		//AppHandler.alert('on user list:' + action);
 	},
-	setup: function() {
+	setup: function($super) {
+		$super();
 		var that = this;
 		this.controller.setupWidget('user-list', {
 			itemTemplate: 'user-list/user-list-item',
@@ -63,7 +64,6 @@ var UserListAssistant = Class.create(BaseAssistant, {
 		});
 	},
 	activate: function() {
-		if (AppMenu.get().isShow) AppMenu.get().hide(true);
 	}
 });
 

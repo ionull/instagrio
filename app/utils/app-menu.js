@@ -5,7 +5,13 @@ function AppMenu(opts) {
 
 AppMenu.get = function(opts) {
 	if (AppMenu.menu == null) {
+		Mojo.Log.error('creating menu');
 		AppMenu.menu = new AppMenu(opts);
+	} else {
+		if(opts && opts.controller) {
+			Mojo.Log.error('replacing menu');
+			AppMenu.menu.opts = opts;
+		}
 	}
 	return AppMenu.menu;
 }
@@ -17,8 +23,8 @@ AppMenu.prototype = {
 	},
 	toggggle: function() {
 		var that = this;
-		this.baseButton = $('base-button');
-		this.circle = $('container-circle');
+		this.baseButton = this.opts.controller.get('base-button');
+		this.circle = this.opts.controller.get('container-circle');
 		this.btns = this.circle.select('[class="btn-toggle"]');
 		if (this.btns.length == 0) {
 			this.btns = this.circle.select('[class="btn-toggle open"]');
@@ -27,13 +33,13 @@ AppMenu.prototype = {
 		//nav bg click
 		this.circle.observe('click', function(e) {
 			var target = e.target;
-			if(!(target.id)) {
+			if (! (target.id)) {
 				target = target.parentNode;
 			}
-			if(!(target.id)) {
+			if (! (target.id)) {
 				target = target.parentNode;
 			}
-			if(target.id == 'base-button') {
+			if (target.id == 'base-button') {
 				that.toggleMenu();
 			} else {
 				that.onToggleItem(target);
@@ -58,7 +64,7 @@ AppMenu.prototype = {
 		AppMenu.toggled = ! (AppMenu.toggled);
 	},
 	keepFolding: function() {
-		if(AppMenu.toggled) {
+		if (AppMenu.toggled) {
 			AppMenu.get().toggleMenu();
 		}
 	},
@@ -76,7 +82,7 @@ AppMenu.prototype = {
 	},
 	onToggleItem: function(which) {
 		var id = which.id;
-		if(id && id.indexOf('nav-') >= 0) {
+		if (id && id.indexOf('nav-') >= 0) {
 			this.toggleMenu();
 			this.menuTo(id.replace('nav-', ''));
 			AppHandler.alert('pulling..');
@@ -84,19 +90,24 @@ AppMenu.prototype = {
 	},
 	menuTo: function(which) {
 		var that = this;
-		var currentScene = Mojo.Controller.stageController.activeScene();
-		Mojo.Log.info('on activate ' + Mojo.Log.propertiesAsString(currentScene.assistant, true));
-		var opts = {
-			source: 'menu',
-			which: which
-		};
-		if (currentScene != null && currentScene.sceneName == 'main') {
-			currentScene.assistant.refresh(opts);
-		} else {
-			Mojo.Controller.stageController.popScenesTo('main', opts);
-			currentScene = Mojo.Controller.stageController.activeScene();
-			if(!currentScene || currentScene.sceneName != 'main') {
-				Mojo.Controller.stageController.pushScene('main');
+		var mainStage = Mojo.Controller.getAppController().getStageController('main');
+		if (mainStage) {
+			//var currentScene = Mojo.Controller.stageController.activeScene();
+			var currentScene = mainStage.activeScene();
+			//Mojo.Log.info('on activate ' + Mojo.Log.propertiesAsString(currentScene.assistant, true));
+			var opts = {
+				source: 'menu',
+				which: which
+			};
+			if (currentScene != null && currentScene.sceneName == 'main') {
+				currentScene.assistant.refresh(opts);
+			} else {
+				//Mojo.Controller.stageController.popScenesTo('main', opts);
+				mainStage.popScenesTo('main', opts);
+				currentScene = mainStage.activeScene();
+				if (!currentScene || currentScene.sceneName != 'main') {
+					mainStage.pushScene('main');
+				}
 			}
 		}
 	},

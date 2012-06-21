@@ -3,7 +3,8 @@ var CommentListAssistant = Class.create(BaseAssistant, {
 		$super(media);
 		this.media = media;
 	},
-	setup: function() {
+	setup: function($super) {
+		$super();
 		var that = this;
 		this.controller.setupWidget('comment-list', {
 			itemTemplate: 'comment-list/comment-list-item',

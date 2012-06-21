@@ -2,24 +2,27 @@ var BaseAssistant = Class.create({
 	initialize: function() {},
 	setup: function() {
 		Mojo.Log.info('base setup');
+		AppMenu.get(this).showToggle();
+		this.onMaxmizeHandler = this.onMaxmizeOrMinmize.bind(this);
 	},
 	activate: function(){
 		Mojo.Log.info('base activate');
-		this.baseFirstEl = $(document.body.getElementsByTagName('*')[0]);
-		this.baseFirstEl.setAttribute('tabindex',-1);
-		this.baseFirstEl.focus();
-		AppMenu.get().prevent(this.baseFirstEl);
+		Mojo.Event.listen(this.controller.stageController.document, Mojo.Event.stageActivate, this.onMaxmizeHandler, false);
+		Mojo.Event.listen(this.controller.stageController.document, Mojo.Event.stageDeactivate, this.onMaxmizeHandler, false);
 	},
 	deactivate: function(){
 		Mojo.Log.info('base deactivate');
-		AppMenu.get().dePrevent(this.baseFirstEl);
-		AppMenu.get().keepFolding();
+		Mojo.Event.stopListening(this.controller.stageController.document, Mojo.Event.stageActivate, this.onMaxmizeHandler, false);
+		Mojo.Event.stopListening(this.controller.stageController.document, Mojo.Event.stageDeactivate, this.onMaxmizeHandler, false);
+		AppMenu.get(this).keepFolding();
 	},
 	cleanup: function(){
 		Mojo.Log.info('base cleanup');
-		AppMenu.get().dePrevent(this.baseFirstEl);
 		if(this.photoListHelper) {
 			this.photoListHelper.cleanup();
 		}
+	},
+	onMaxmizeOrMinmize: function() {
+		AppMenu.get(this).showToggle();
 	}
 });

@@ -6,7 +6,8 @@ var LocationGalleryAssistant = Class.create(BaseAssistant, {
 		this.lat = lat;
 		this.lng = lng;
 	},
-	setup: function() {
+	setup: function($super) {
+		$super();
 		Mojo.Log.info(this.TAG, 'setup');
 		var that = this;
 

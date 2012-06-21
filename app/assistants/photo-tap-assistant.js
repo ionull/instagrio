@@ -11,11 +11,11 @@ PhotoTapAssistant.prototype = {
 		this.widget = widget;
 
 		if (this.media.user_has_liked) {
-			$('like').outerHTML = '';
-			$('comment').setStyle({
+			this.assistant.controller.get('like').outerHTML = '';
+			this.assistant.controller.get('comment').setStyle({
 				'width': '50%'
 			});
-			$('save').setStyle({
+			this.assistant.controller.get('save').setStyle({
 				'width': '50%'
 			});
 		}
@@ -77,7 +77,8 @@ PhotoTapAssistant.prototype = {
 						item['user_has_liked'] = true;
 						item['likes']['count'] = (item['likes']['count'] + 1);
 						//notify like changed
-						var likeElement = $$('#photo_' + item.id + ' [class~=likeContent]').first();
+						var photoElement = that.assistant.controller.get('photo_' + item.id);
+						var likeElement = photoElement.select('[class~=likeContent]').first();
 						if (likeElement) {
 							if (likeElement.hasClassName('unliked')) {
 								likeElement.removeClassName('unliked');

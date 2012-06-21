@@ -1,8 +1,10 @@
 function ConnectAssistant() {
-	AppHandler.setAppBackground("#A1AC88");
 }
 
 ConnectAssistant.prototype.setup = function() {
+	var that = this;
+	AppMenu.get(this).hideToggle();
+	//AppHandler.setAppBackground(this.controller.document, "#A1AC88");
 	var oauthConfig={
 		callbackScene:'main', //Name of the assistant to be called on the OAuth Success
 		authorizeUrl:'http://instagram.com/oauth/authorize',
@@ -15,26 +17,20 @@ ConnectAssistant.prototype.setup = function() {
 		scope: ['likes','comments','relationships']
 	 };
 	 
-	$('connect_btn').observe('click', function(event) {
+	this.controller.get('connect_btn').observe('click', function(event) {
 		var el = Event.element(event);
 		el.setStyle({backgroundPosition: '0 -86px'});
-		Mojo.Controller.stageController.popScene();
-		Mojo.Controller.stageController.pushScene('oauth', oauthConfig);
-		AppHandler.setAppBackground("#FFFFFF");
+		that.controller.stageController.popScene();
+		that.controller.stageController.pushScene('oauth', oauthConfig);
+		//AppHandler.setAppBackground(that.controller.document, "#FFFFFF");
 	});
 };
 
 ConnectAssistant.prototype.activate = function(event) {
-	/* put in event handlers here that should only be in effect when this scene is active. For
-	   example, key handlers that are observing the document */
 };
 
 ConnectAssistant.prototype.deactivate = function(event) {
-	/* remove any event handlers you added in activate and do any other cleanup that should happen before
-	   this scene is popped or another scene is pushed on top */
 };
 
 ConnectAssistant.prototype.cleanup = function(event) {
-	/* this function should do any cleanup needed before the scene is destroyed as 
-	   a result of being popped off the scene stack */
 };
