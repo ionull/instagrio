@@ -16,13 +16,6 @@
 				"action": "search-user",
 				"data": "#{searchTerms}"
 			}
-		},
-		"action": {
-			"displayName": "Instagram Exhibition",
-			"url": "bz.tsung.instagrio",
-			"launchParam": {
-				"action": "dock-mode"
-			}
 		}
 	},
 	"dockMode": true,

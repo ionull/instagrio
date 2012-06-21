@@ -51,7 +51,9 @@ AppAssistant.prototype = {
 				}, stageController);
 			};
 			if (mainController) {
-				f(launchParams, mainController);
+				AppAssistant.helper.verifyAuth(function() {
+					that.onMainLaunch(launchParams, mainController);
+				}, mainController);
 			} else {
 				AppMenu.menu = null;
 				this.controller.createStageWithCallback({
