@@ -134,11 +134,15 @@ var PhotoGalleryAssistant = Class.create(BaseAssistant, {
 	onMaxmize: function() {
 		AppMenu.get(this).hideToggle();
 		this.isMin = false;
-		this.setDockTimer();
+		//this.setDockTimer();
 	},
 	onMinmize: function() {
 		AppMenu.get(this).hideToggle();
 		this.isMin = true;
+		if (this.action == 'dock-mode') {
+			var appController = Mojo.Controller.getAppController();
+			appController.closeStage('dock');
+		}
 	},
 	onHold: function(event) {
 		var that = this;
