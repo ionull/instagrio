@@ -5,20 +5,20 @@ var BaseAssistant = Class.create({
 		AppMenu.get(this).showToggle();
 		this.onMaxmizeHandler = this.onMaxmizeOrMinmize.bind(this);
 	},
-	activate: function(){
+	activate: function() {
 		Mojo.Log.info('base activate');
 		Mojo.Event.listen(this.controller.stageController.document, Mojo.Event.stageActivate, this.onMaxmizeHandler, false);
 		Mojo.Event.listen(this.controller.stageController.document, Mojo.Event.stageDeactivate, this.onMaxmizeHandler, false);
 	},
-	deactivate: function(){
+	deactivate: function() {
 		Mojo.Log.info('base deactivate');
 		Mojo.Event.stopListening(this.controller.stageController.document, Mojo.Event.stageActivate, this.onMaxmizeHandler, false);
 		Mojo.Event.stopListening(this.controller.stageController.document, Mojo.Event.stageDeactivate, this.onMaxmizeHandler, false);
 		AppMenu.get(this).keepFolding();
 	},
-	cleanup: function(){
+	cleanup: function() {
 		Mojo.Log.info('base cleanup');
-		if(this.photoListHelper) {
+		if (this.photoListHelper) {
 			this.photoListHelper.cleanup();
 		}
 	},
@@ -26,3 +26,4 @@ var BaseAssistant = Class.create({
 		AppMenu.get(this).showToggle();
 	}
 });
+

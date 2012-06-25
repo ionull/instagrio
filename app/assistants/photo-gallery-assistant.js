@@ -12,7 +12,9 @@ var PhotoGalleryAssistant = Class.create(BaseAssistant, {
 			this.items = [];
 		}
 	},
-	setup: function() {
+	setup: function($super) {
+		Mojo.Log.error('setup');
+		$super();
 		var that = this;
 		//hide menu
 		AppMenu.get(this).hideToggle();
@@ -42,9 +44,10 @@ var PhotoGalleryAssistant = Class.create(BaseAssistant, {
 		Mojo.Event.listen(this.photoGallery, Mojo.Event.hold, this.onHoldListener);
 		this.onWindowResizeHandler = this.onWindowResize.bind(this);
 		Mojo.Event.listen(this.controller.window, 'resize', this.onWindowResizeHandler);
-		this.onMaxmizeHandler = this.onMaxmizeOrMinmize.bind(this);
+		this.onMaxmizeHandler = this.onMaxmize.bind(this);
+		this.onMinmizeHandler = this.onMinmize.bind(this);
 		Mojo.Event.listen(this.controller.stageController.document, Mojo.Event.stageActivate, this.onMaxmizeHandler, false);
-		Mojo.Event.listen(this.controller.stageController.document, Mojo.Event.stageDeactivate, this.onMaxmizeHandler, false);
+		Mojo.Event.listen(this.controller.stageController.document, Mojo.Event.stageDeactivate, this.onMinmizeHandler, false);
 
 		//if dock mode
 		if (that.action == 'dock-mode') {
@@ -54,30 +57,57 @@ var PhotoGalleryAssistant = Class.create(BaseAssistant, {
 	},
 	startDockMode: function() {
 		var that = this;
+		//try again after 1 min
+		//prevent gallery stop while dock mode
+		var fail = function() {
+			var t = setTimeout(function() {
+				clearTimeout(t);
+				that.startDockMode();
+			},
+			600000);
+		};
+		var fetchTimer = setTimeout(function() {
+			//maybe request time out
+			fail();
+		}, 600000);
 		AppSDK.getPopular({
 			onSuccess: function(result) {
 				//AppHandler.alert('dockmode popular');
+				clearTimeout(fetchTimer);
 				var json = result.responseJSON;
 				Mojo.Log.error('dock result:' + result.responseText);
 				that.items = json.data;
 				//AppHandler.alert('items length' + that.items.length);
-				if (that.items && that.items.length > 0) {
-					that.index = 0;
-					that.setUrls();
-					that.setDockTimer();
+				try {
+					if (that.items && that.items.length > 0) {
+						that.index = 0;
+						that.setUrls();
+						that.setDockTimer();
+					} else {
+						fail();
+					}
+				} catch(e) {
+					fail();
 				}
 			},
 			onFailure: function(r) {
 				Mojo.Log.error('dock result fail :' + JSON.stringify(r));
+				fail();
+				clearTimeout(fetchTimer);
 			}
 		});
 	},
 	setDockTimer: function() {
+		//Mojo.Log.error('setDockTimer');
 		//AppHandler.alert('dockmode popular start');
 		var that = this;
 		var t = setTimeout(function() {
 			clearTimeout(t);
 			//AppHandler.alert('dockmode popular timeout');
+			if(that.isMin) {
+				Mojo.Log.error('is min do nothing');
+				return;
+			}
 			if (that.index + 1 == that.items.length) {
 				that.startDockMode();
 			} else {
@@ -88,15 +118,23 @@ var PhotoGalleryAssistant = Class.create(BaseAssistant, {
 		},
 		10000);
 	},
-	cleanup: function() {
+	cleanup: function($super) {
+		Mojo.Log.error('cleanup');
+		$super();
 		Mojo.Event.stopListening(this.photoGallery, Mojo.Event.hold, this.onHoldListener);
 		Mojo.Event.stopListening(this.controller.window, 'resize', this.onWindowResizeHandler);
 		Mojo.Event.stopListening(this.controller.stageController.document, Mojo.Event.stageActivate, this.onMaxmizeHandler, false);
-		Mojo.Event.stopListening(this.controller.stageController.document, Mojo.Event.stageDeactivate, this.onMaxmizeHandler, false);
+		Mojo.Event.stopListening(this.controller.stageController.document, Mojo.Event.stageDeactivate, this.onMinmizeHandler, false);
 		AppMenu.get(this).showToggle();
 	},
-	onMaxmizeOrMinmize: function() {
+	onMaxmize: function() {
 		AppMenu.get(this).hideToggle();
+		this.isMin = false;
+		this.setDockTimer();
+	},
+	onMinmize: function() {
+		AppMenu.get(this).hideToggle();
+		this.isMin = true;
 	},
 	onHold: function(event) {
 		var that = this;
@@ -134,6 +172,7 @@ var PhotoGalleryAssistant = Class.create(BaseAssistant, {
 		}
 	},
 	activate: function() {
+		Mojo.Log.error('activate');
 		if (AppMenu.get().isShow) AppMenu.get().hide(true);
 		this.controller.enableFullScreenMode(true);
 		this.controller.stageController.setWindowOrientation('up');
