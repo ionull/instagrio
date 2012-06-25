@@ -21,8 +21,14 @@ var LocationGalleryAssistant = Class.create(BaseAssistant, {
 		this.callback = photoListHelper.callback();
 		AppSDK.getMediaSearch(this.callback, this.lat, this.lng);
 	},
-	activate: function() {
-		if (AppMenu.get().isShow) AppMenu.get().hide(true);
+	activate: function($super) {
+		$super();
+	},
+	deactivate: function($super) {
+		$super();
+	},
+	cleanup: function($super) {
+		$super();
 	}
 });
 

@@ -5,11 +5,11 @@ function AppMenu(opts) {
 
 AppMenu.get = function(opts) {
 	if (AppMenu.menu == null) {
-		Mojo.Log.error('creating menu');
+		//Mojo.Log.error('creating menu');
 		AppMenu.menu = new AppMenu(opts);
 	} else {
 		if(opts && opts.controller) {
-			Mojo.Log.error('replacing menu');
+			//Mojo.Log.error('replacing menu');
 			AppMenu.menu.opts = opts;
 		}
 	}

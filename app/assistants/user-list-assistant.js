@@ -63,7 +63,14 @@ var UserListAssistant = Class.create(BaseAssistant, {
 			user: event.item
 		});
 	},
-	activate: function() {
+	activate: function($super) {
+		$super();
+	},
+	deactivate: function($super) {
+		$super();
+	},
+	cleanup: function($super) {
+		$super();
 	}
 });
 

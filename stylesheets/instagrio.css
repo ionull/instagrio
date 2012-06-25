@@ -45,31 +45,6 @@ body {
     background: transparent url("../images/connect_via_instagram_button.png") no-repeat 0 0;
 }
 
-/* nav bar */
-#nav-bar {
-	position:fixed;
-	bottom:0;
-	left:0;
-	background:rgba(0,0,0,0.8);
-	padding-top:7px;
-	width:50%;
-}
-.nav li {
-    float: left;
-    width: 50%;
-    text-align: center
-}
-
-.nav li span {
-    padding: 4px;
-    font-size: 16px;
-    font-weight: bold;
-}
-
-.nav li span.active {
-	color: white;
-}
-
 /* photo tool bar */
 #tool-bar {
 	padding-top: 30px;
@@ -106,6 +81,10 @@ body {
 
 .tool-bar #cancel span {
   background: url(../images/icons/cancel.png) no-repeat top;
+}
+
+.tool-bar #search-user span {
+  background: url(../images/icons/search_user.png) no-repeat top;
 }
 
 /* feed item */

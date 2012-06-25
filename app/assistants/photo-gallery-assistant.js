@@ -11,6 +11,7 @@ var PhotoGalleryAssistant = Class.create(BaseAssistant, {
 			this.index = - 1;
 			this.items = [];
 		}
+		this.noSearch = true;
 	},
 	setup: function($super) {
 		Mojo.Log.error('setup');
@@ -24,12 +25,14 @@ var PhotoGalleryAssistant = Class.create(BaseAssistant, {
 		},
 		this.model = {
 			onLeftFunction: function() {
-				if (that.index > 0) {--that.index;
+				if (that.index > 0) {
+					that.index--;
 					that.setUrls();
 				}
 			},
 			onRightFunction: function() {
-				if (that.index + 1 < that.items.length) {++that.index;
+				if (that.index + 1 < that.items.length) {
+					that.index++;
 					that.setUrls();
 				}
 			}
@@ -69,7 +72,8 @@ var PhotoGalleryAssistant = Class.create(BaseAssistant, {
 		var fetchTimer = setTimeout(function() {
 			//maybe request time out
 			fail();
-		}, 600000);
+		},
+		600000);
 		AppSDK.getPopular({
 			onSuccess: function(result) {
 				//AppHandler.alert('dockmode popular');
@@ -104,7 +108,7 @@ var PhotoGalleryAssistant = Class.create(BaseAssistant, {
 		var t = setTimeout(function() {
 			clearTimeout(t);
 			//AppHandler.alert('dockmode popular timeout');
-			if(that.isMin) {
+			if (that.isMin) {
 				Mojo.Log.error('is min do nothing');
 				return;
 			}
@@ -171,13 +175,18 @@ var PhotoGalleryAssistant = Class.create(BaseAssistant, {
 			that.photoGallery.mojo.rightUrlProvided(this.getPhoto(that.items[that.index + 1]));
 		}
 	},
-	activate: function() {
+	activate: function($super) {
 		Mojo.Log.error('activate');
+		$super();
 		if (AppMenu.get().isShow) AppMenu.get().hide(true);
 		this.controller.enableFullScreenMode(true);
 		this.controller.stageController.setWindowOrientation('up');
 		this.photoGallery.mojo.manualSize(Mojo.Environment.DeviceInfo.screenWidth, Mojo.Environment.DeviceInfo.screenHeight);
 		this.setUrls();
+	},
+	deactivate: function($super) {
+		Mojo.Log.error('deactivate');
+		$super();
 	},
 	onWindowResize: function(event) {
 		if (this.photoGallery && this.photoGallery.mojo) {

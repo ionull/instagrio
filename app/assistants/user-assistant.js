@@ -121,9 +121,14 @@ var UserAssistant = Class.create(BaseAssistant, {
 		this.callback = photoListHelper.callback();
 		AppSDK.getUserMedia(this.callback, this.uid);
 	},
-	activate: function() {
+	activate: function($super) {
+		$super();
 	},
-	cleanup: function() {
+	deactivate: function($super) {
+		$super();
+	},
+	cleanup: function($super) {
+		$super();
 		if (this.countsArea) {
 			Mojo.Event.stopListening(this.countsArea, 'click', this.countsHandler);
 		}
