@@ -80,9 +80,14 @@ var PhotoGalleryAssistant = Class.create(BaseAssistant, {
 				clearTimeout(fetchTimer);
 				var json = result.responseJSON;
 				Mojo.Log.error('dock result:' + result.responseText);
-				that.items = json.data;
-				//AppHandler.alert('items length' + that.items.length);
+				if(!json) {
+					Mojo.Log.error('dock result none');
+					fail();
+					return;
+				}
 				try {
+					that.items = json.data;
+					//AppHandler.alert('items length' + that.items.length);
 					if (that.items && that.items.length > 0) {
 						that.index = 0;
 						that.setUrls();
@@ -92,6 +97,7 @@ var PhotoGalleryAssistant = Class.create(BaseAssistant, {
 					}
 				} catch(e) {
 					fail();
+					Mojo.Log.error('fail: ' + JSON.stringify(e));
 				}
 			},
 			onFailure: function(r) {
@@ -121,6 +127,7 @@ var PhotoGalleryAssistant = Class.create(BaseAssistant, {
 			}
 		},
 		10000);
+		that.onWindowResizeHandler(null);
 	},
 	cleanup: function($super) {
 		Mojo.Log.error('cleanup');
@@ -157,7 +164,7 @@ var PhotoGalleryAssistant = Class.create(BaseAssistant, {
 	},
 	getPhoto: function(item) {
 		if (item) {
-			var sHeight = Mojo.Environment.DeviceInfo.screenWidth;
+			var sHeight = Mojo.Environment.DeviceInfo.screenHeight;
 			if (sHeight > 500) {
 				return item.images.standard_resolution.url;
 			} else {

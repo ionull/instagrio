@@ -31,7 +31,7 @@ AppHandler.onUserClicked = function(opt) {
 };
 
 AppHandler.alert = function(msg) {
-	Mojo.Log.info(AppHandler.TAG, 'alert');
+	//Mojo.Log.info(AppHandler.TAG, 'alert');
 	Mojo.Controller.getAppController().showBanner({
 				messageText: msg
 			}, 'CommonAlert', 'CommonAlert');

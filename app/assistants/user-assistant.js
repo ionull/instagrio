@@ -107,7 +107,7 @@ var UserAssistant = Class.create(BaseAssistant, {
 					that.controller.stageController.pushScene('user-list', 'foing', that.uid);
 				}
 			}.bind(this);
-			Mojo.Event.listen(this.countsArea, 'click', this.countsHandler);
+			Mojo.Event.listen(this.countsArea, 'mousedown', this.countsHandler);
 		}
 
 		var photoListHelper = new PhotoListHelper({
@@ -130,7 +130,7 @@ var UserAssistant = Class.create(BaseAssistant, {
 	cleanup: function($super) {
 		$super();
 		if (this.countsArea) {
-			Mojo.Event.stopListening(this.countsArea, 'click', this.countsHandler);
+			Mojo.Event.stopListening(this.countsArea, 'mousedown', this.countsHandler);
 		}
 	}
 });

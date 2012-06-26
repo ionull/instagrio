@@ -1,7 +1,7 @@
 var PhotoListHelper = Class.create((function() {
 	var private_fn = {
 		onMouseDown: function() {
-			AppMenu.get().keepFolding();
+			//AppMenu.get().keepFolding();
 		},
 		onScroll: function() {
 			//Mojo.Log.info('scrolling');
@@ -242,26 +242,18 @@ var PhotoListHelper = Class.create((function() {
 
 			this.photoList = this.controller.get(this.idList);
 			this.listTapListener = private_fn.listWasTapped.bind(this);
-			Mojo.Event.listen(this.photoList, Mojo.Event.listTap, this.listTapListener);
 
 			this.scroller = this.controller.getSceneScroller();
 			this.scrollerListener = private_fn.onScroll.bind(this);
-			Mojo.Event.listen(this.scroller, 'scroll', this.scrollerListener);
 			this.mousedownListener = private_fn.onMouseDown.bind(this);
-			Mojo.Event.listen(this.scroller, 'mousedown', this.mousedownListener);
 
 			//hold event on list item
 			this.onHoldListener = private_fn.onHold.bind(this);
-			//Mojo.Event.listen(this.controller.document, Mojo.Event.hold, this.onHoldListener);
-			Mojo.Event.listen(this.photoList, Mojo.Event.hold, this.onHoldListener);
 			this.onHoldEndListener = private_fn.onHoldEnd.bind(this);
-			Mojo.Event.listen(this.photoList, Mojo.Event.holdEnd, this.onHoldEndListener);
 
 			this.onTapListener = private_fn.onTap.bind(this);
-			Mojo.Event.listen(this.photoList, Mojo.Event.tap, this.onTapListener);
 
 			this.floatAll = this.controller.get('float_all');
-			Mojo.Event.listen(this.floatAll, Mojo.Event.tap, this.onTapListener);
 		},
 		callback: function() {
 			return {
@@ -269,8 +261,17 @@ var PhotoListHelper = Class.create((function() {
 				onFailure: private_fn.onFailure.bind(this)
 			}
 		},
-		cleanup: function() {
-			//Mojo.Log.error('on photo list cleanup---->');
+		activate: function() {
+			Mojo.Event.listen(this.photoList, Mojo.Event.listTap, this.listTapListener);
+			Mojo.Event.listen(this.scroller, 'scroll', this.scrollerListener);
+			Mojo.Event.listen(this.scroller, 'mousedown', this.mousedownListener);
+			//Mojo.Event.listen(this.controller.document, Mojo.Event.hold, this.onHoldListener);
+			Mojo.Event.listen(this.photoList, Mojo.Event.hold, this.onHoldListener);
+			Mojo.Event.listen(this.photoList, Mojo.Event.holdEnd, this.onHoldEndListener);
+			Mojo.Event.listen(this.photoList, Mojo.Event.tap, this.onTapListener);
+			Mojo.Event.listen(this.floatAll, Mojo.Event.tap, this.onTapListener);
+		},
+		deactivate: function() {
 			Mojo.Event.stopListening(this.photoList, Mojo.Event.listTap, this.listTapListener);
 			Mojo.Event.stopListening(this.scroller, 'scroll', this.scrollerListener);
 			Mojo.Event.stopListening(this.scroller, 'mousedown', this.mousedownListener);
@@ -279,6 +280,9 @@ var PhotoListHelper = Class.create((function() {
 
 			Mojo.Event.stopListening(this.photoList, Mojo.Event.tap, this.onTapListener);
 			Mojo.Event.stopListening(this.floatAll, Mojo.Event.tap, this.onTapListener);
+		},
+		cleanup: function() {
+			//Mojo.Log.error('on photo list cleanup---->');
 		}
 	};
 })());

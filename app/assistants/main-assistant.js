@@ -51,9 +51,9 @@ var MainAssistant = Class.create(BaseAssistant, (function() {
 					case 'mine':
 						AppSDK.getMine(this.callback);
 						break;
-						break;
 					case 'liked':
 						AppSDK.getUsersSelfMediaLiked(this.callback);
+						break;
 					default:
 						break;
 					}
@@ -64,7 +64,6 @@ var MainAssistant = Class.create(BaseAssistant, (function() {
 			Mojo.Log.info(this.TAG, 'on activate ' + Mojo.Log.propertiesAsString(event, true));
 			this.refresh(event);
 			$super(event);
-			AppHandler.photoListHelper = this.photoListHelper;
 		},
 		deactivate: function($super, event) {
 			$super(event);

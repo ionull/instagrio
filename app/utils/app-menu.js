@@ -31,8 +31,10 @@ AppMenu.prototype = {
 		}
 
 		//nav bg click
+		/*
 		this.circle.observe('click', function(e) {
 			var target = e.target;
+			Mojo.Log.error('onCircleClick: ' + target.outerHTML);
 			if (! (target.id)) {
 				target = target.parentNode;
 			}
@@ -40,11 +42,12 @@ AppMenu.prototype = {
 				target = target.parentNode;
 			}
 			if (target.id == 'base-button') {
-				that.toggleMenu();
+				//that.toggleMenu();
 			} else {
 				that.onToggleItem(target);
 			}
 		});
+		*/
 	},
 	toggleMenu: function() {
 		var that = this;
@@ -83,12 +86,13 @@ AppMenu.prototype = {
 	onToggleItem: function(which) {
 		var id = which.id;
 		if (id && id.indexOf('nav-') >= 0) {
-			this.toggleMenu();
+			//this.toggleMenu();
 			this.menuTo(id.replace('nav-', ''));
-			AppHandler.alert('pulling..');
 		}
 	},
 	menuTo: function(which) {
+		Mojo.Log.error('menu to: ' + which);
+		AppHandler.alert('pulling..');
 		var that = this;
 		var mainStage = Mojo.Controller.getAppController().getStageController('main');
 		if (mainStage) {

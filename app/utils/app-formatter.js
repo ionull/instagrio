@@ -79,7 +79,8 @@ var AppFormatter = {
 	},
 	images: function(n, model) {
 		if (n) {
-			var sHeight = Mojo.Environment.DeviceInfo.screenWidth;
+			var sHeight = Mojo.Environment.DeviceInfo.screenHeight;
+			//Mojo.Log.error('screen height : ' + sHeight);
 			if (sHeight > 500) {
 				return n.standard_resolution.url;
 			} else {
@@ -90,11 +91,11 @@ var AppFormatter = {
 	},
 	imageHeight: function(n, model) {
 		if (n) {
-			var sHeight = Mojo.Environment.DeviceInfo.screenWidth;
+			var sHeight = Mojo.Environment.DeviceInfo.screenHeight;
 			var sWidth = Mojo.Environment.DeviceInfo.screenWidth;
 			var minHeight = sWidth - 20;
 			if (sHeight > 500) {
-				minHeight = 400;
+				minHeight = 300;
 			}
 			return minHeight + 'px';
 		} else {

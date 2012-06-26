@@ -47,8 +47,14 @@ var CommentListAssistant = Class.create(BaseAssistant, {
 			user: event.item.from
 		});
 	},
-	activate: function() {
-		if (AppMenu.get().isShow) AppMenu.get().hide(true);
+	activate: function($super) {
+		$super();
+	},
+	deactivate: function($super) {
+		$super();
+	},
+	cleanup: function($super) {
+		$super();
 	}
 });
 
