@@ -7,7 +7,7 @@
 	"title": "instagrio",
 	"icon": "icon.png",
 	"noWindow": true,
-	"keywords": ["instagram", "photo", "gallery", "instagrio"],
+	"keywords": ["instagram", "photo", "gallery"],
 	"universalSearch": {
 		"search": {
 			"displayName": "Find Instagram User",
