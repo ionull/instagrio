@@ -40,7 +40,7 @@ var BaseAssistant = Class.create({
 	onGlobalKeyup: function(e) {
 		//Mojo.Log.error('onGlobalKeyup: ' + e.keyCode + ' value: ' + String.fromCharCode(e.keyCode));
 		
-		if(this.noSearch || JustSearchAssistant.doing) {
+		if(this.noSearch || JustSearchAssistant.doing || CommentAddAssistant.doing) {
 			return;
 		}
 		var value = String.fromCharCode(e.keyCode);

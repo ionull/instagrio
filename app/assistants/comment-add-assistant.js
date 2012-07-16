@@ -1,6 +1,7 @@
 function CommentAddAssistant(assistant, media) {
 	this.assistant = assistant;
 	this.media = media;
+	CommentAddAssistant.doing = true;
 }
 
 CommentAddAssistant.prototype = {
@@ -30,6 +31,7 @@ CommentAddAssistant.prototype = {
 		this.assistant.assistant.activate();
 	},
 	cleanup: function() {
+		CommentAddAssistant.doing = false;
 	},
 	onClick: function(event) {
 		var target = event.target;

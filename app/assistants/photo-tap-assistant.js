@@ -126,17 +126,30 @@ PhotoTapAssistant.prototype = {
 			var standardResolution = item['images']['standard_resolution']['url'];
 			Mojo.Log.info('downloading---> ' + standardResolution);
 
+			var saveParams = {
+				target: standardResolution,
+				targetDir: '/media/internal/instagrio',
+				targetFilename: item.user.username + '_' + item.created_time + '.jpg',
+				keepFilenameOnRedirect: false,
+				subscribe: false
+			};
 			that.assistant.controller.serviceRequest('palm://com.palm.downloadmanager/', {
 				method: 'download',
-				parameters: {
-					target: standardResolution,
-					targetDir: '/media/internal/instagrio',
-					targetFilename: item.user.username + '_' + item.created_time + '.jpg',
-					keepFilenameOnRedirect: false,
-					subscribe: false
-				},
+				parameters: saveParams,
 				onSuccess: function(resp) {
 					Mojo.Log.error(Object.toJSON(resp))
+					//hack for 145 save bug
+					saveParams.subscribe = true;
+					that.assistant.controller.serviceRequest('palm://com.palm.downloadmanager/', {
+						method: 'download',
+						parameters: saveParams,
+						onSuccess: function(resp) {
+							Mojo.Log.error(Object.toJSON(resp))
+						},
+						onFailure: function(e) {
+							Mojo.Log.error(Object.toJSON(e))
+						}
+					});
 				},
 				onFailure: function(e) {
 					Mojo.Log.error(Object.toJSON(e))
