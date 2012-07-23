@@ -6,6 +6,9 @@ var BaseAssistant = Class.create({
 		this.onMaxmizeHandler = this.onMaxmizeOrMinmize.bind(this);
 		this.onGlobalKeyupListener = this.onGlobalKeyup.bind(this);
 		this.onGlobalMouseDownListener = this.onGlobalMouseDown.bind(this);
+
+		//global menu set
+		AppAssistant.helper.menu(this.controller);
 	},
 	activate: function() {
 		Mojo.Log.info('base activate');

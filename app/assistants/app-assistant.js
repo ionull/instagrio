@@ -12,6 +12,33 @@ AppAssistant.helper = {
 				stageController.pushScene('connect');
 			}
 		});
+	},
+	menu: function(controller) {
+		var menuItems = [
+		Mojo.Menu.editItem,
+		/*{
+			label: $L(StringMap.menu.runBackground),
+			icon: Global.configs.background ? 'toggle-on': 'toggle-off',
+			command: 'cmdToggleBackground'
+		},
+		*/
+		{
+			label: 'Log out!',
+			command: 'cmd-logout'
+		}];
+
+		if (AppAssistant.menuModels) {
+			AppAssistant.menuModels.items = menuItems;
+		} else {
+			AppAssistant.menuModels = {
+				visible: true,
+				items: menuItems
+			};
+		}
+		controller.setupWidget(Mojo.Menu.appMenu, {
+			omitDefaultItems: true
+		},
+		AppAssistant.menuModels);
 	}
 };
 
@@ -32,7 +59,8 @@ AppAssistant.prototype = {
 				var f = function(stageController) {
 					AppAssistant.helper.verifyAuth(function() {
 						stageController.pushScene('photo-gallery', 'dock-mode');
-					}, stageController);
+					},
+					stageController);
 				}.bind(this);
 				this.controller.createStageWithCallback({
 					name: 'dock',
@@ -48,12 +76,14 @@ AppAssistant.prototype = {
 				Mojo.Log.error('launch main: ' + JSON.stringify(launchParams));
 				AppAssistant.helper.verifyAuth(function() {
 					that.onMainLaunch(launchParams, stageController);
-				}, stageController);
+				},
+				stageController);
 			};
 			if (mainController) {
 				AppAssistant.helper.verifyAuth(function() {
 					that.onMainLaunch(launchParams, mainController);
-				}, mainController);
+				},
+				mainController);
 			} else {
 				AppMenu.menu = null;
 				this.controller.createStageWithCallback({
@@ -93,6 +123,36 @@ AppAssistant.prototype = {
 			}
 		}
 	},
-	handleCommand: function(event) {}
+	clearDock: function() {
+		this.clearStage('dock');
+	},
+	clearMain: function() {
+		this.clearStage('main');
+	},
+	clearStage: function(stageName) {
+		var appController = Mojo.Controller.getAppController();
+		appController.closeStage(stageName);
+	},
+	handleCommand: function(event) {
+		var that = this;
+		var stage = this.controller.getActiveStageController();
+		if (event.command == 'cmd-logout') {
+			AppDB.removeOAuth({
+				onSuccess: function() {
+					AppHandler.access_token = null;
+					AppHandler.user = null;
+					//launch app to show login
+					setTimeout(function() {
+						Mojo.Log.error('reopen app to connect');
+						AppLauncher.onOpenAPP();
+					}, 10);
+					that.clearMain();
+					that.clearDock();
+				},
+				onFailure: function() {
+				}
+			});
+		}
+	}
 };
 

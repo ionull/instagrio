@@ -80,7 +80,7 @@ var PhotoGalleryAssistant = Class.create(BaseAssistant, {
 				clearTimeout(fetchTimer);
 				var json = result.responseJSON;
 				Mojo.Log.error('dock result:' + result.responseText);
-				if(!json) {
+				if (!json) {
 					Mojo.Log.error('dock result none');
 					fail();
 					return;
@@ -187,16 +187,30 @@ var PhotoGalleryAssistant = Class.create(BaseAssistant, {
 		}
 	},
 	activate: function($super) {
-		Mojo.Log.error('activate');
+		Mojo.Log.error('gallery activate');
 		$super();
 		if (AppMenu.get().isShow) AppMenu.get().hide(true);
 		this.controller.enableFullScreenMode(true);
 		this.controller.stageController.setWindowOrientation('up');
 		this.photoGallery.mojo.manualSize(Mojo.Environment.DeviceInfo.screenWidth, Mojo.Environment.DeviceInfo.screenHeight);
 		this.setUrls();
+
+		//add black background
+		if (!this.styleElement) {
+			var style = this.controller.document.getElementById('photo-gallery-style');
+			this.styleParent = style.parentNode;
+			this.styleElement = style;
+		} else {
+			this.styleParent.appendChild(this.styleElement);
+		}
 	},
 	deactivate: function($super) {
 		Mojo.Log.error('deactivate');
+
+		//remove black background
+		if(this.styleParent) {
+			this.styleParent.removeChild(this.styleElement);
+		}
 		$super();
 	},
 	onWindowResize: function(event) {
