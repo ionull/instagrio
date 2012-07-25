@@ -53,7 +53,7 @@ var AppFormatter = {
 	},
 	caption: function(n, model) {
 		if(n) {
-			return n.text;
+			return ioNull.emoji.parse(n.text);
 		}
 		return '';
 	},
@@ -70,7 +70,7 @@ var AppFormatter = {
 			for (var now in n.data) {
 				var curr = n.data[now];
 				if (! (curr.text)) continue;
-				list += ('<br/><a href="#" class="username userInfo commentUser" data-id="' + model.id + '" sub-id="' + now + '">' + curr.from.username + '</a>:&nbsp;' + curr.text + '&nbsp;&nbsp;' + AppFormatter.timeSince(parseInt(curr.created_time) * 1000));
+				list += ('<br/><a href="#" class="username userInfo commentUser" data-id="' + model.id + '" sub-id="' + now + '">' + curr.from.username + '</a>:&nbsp;' + ioNull.emoji.parse(curr.text) + '&nbsp;&nbsp;' + AppFormatter.timeSince(parseInt(curr.created_time) * 1000));
 			}
 			return count + list;
 		} else {
