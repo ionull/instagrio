@@ -56,13 +56,10 @@ var ioNull = {
 								}
 
 								if (found) {
-									var img = new Image();
-									//img.src = 'emojis/' + emo[0] + '.png';
 									console.log('emojis string is: ' + emo[0]);
 var data = 'data:image/png;base64,'+
     emo[2];
-									img.src = data;
-									var html = img.outerHTML;
+									var html = '<img style="display: inline;vertical-align: middle;" src="' + data + '"/>';
 									console.log('img is: ' + html);
 									//remove old text, add html string
 									var puny = punycode.ucs2.decode(html);
