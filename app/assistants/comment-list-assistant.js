@@ -10,7 +10,8 @@ var CommentListAssistant = Class.create(BaseAssistant, {
 			itemTemplate: 'comment-list/comment-list-item',
 			listTemplate: 'templates/photo-list',
 			formatters: {
-				index: AppFormatter.index.bind(this)
+				index: AppFormatter.index.bind(this),
+				text: AppFormatter.text.bind(this)
 			},
 			uniquenessProperty: 'id',
 			fixedHeightItems: false,

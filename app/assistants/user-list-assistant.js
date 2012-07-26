@@ -12,7 +12,8 @@ var UserListAssistant = Class.create(BaseAssistant, {
 			itemTemplate: 'user-list/user-list-item',
 			listTemplate: 'templates/photo-list',
 			formatters: {
-				index: AppFormatter.index.bind(this)
+				index: AppFormatter.index.bind(this),
+				bio: AppFormatter.text.bind(this)
 			},
 			uniquenessProperty: 'id',
 			fixedHeightItems: false,

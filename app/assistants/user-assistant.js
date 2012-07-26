@@ -26,7 +26,7 @@ var UserAssistant = Class.create(BaseAssistant, {
 				var result = response.responseJSON;
 				userAvatar.src = result.data.profile_picture;
 				if (result.data.full_name != null && result.data.full_name != '') {
-					userName.innerHTML = result.data.full_name;
+					userName.innerHTML = ioNull.emoji.parse(result.data.full_name);
 				} else {
 					userName.innerHTML = result.data.username;
 				}

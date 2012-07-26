@@ -1,0 +1,3 @@
+[submodule "vendors/emoji.js"]
+	path = vendors/emoji.js
+	url = https://github.com/ioNull/emoji.js.git
