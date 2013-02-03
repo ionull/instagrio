@@ -9,7 +9,7 @@ var AppFormatter = {
 	},
 	location: function(n, model) {
 		if (n && n.name && n.latitude && n.longitude) {
-			return "<p class='location' lat='" + n.latitude + "'" + "lng='" + n.longitude + "'>" + n.name + "</p>";
+			return "<p class='location' lat='" + n.latitude + "'" + "lng='" + n.longitude + "'>" + ioNull.emoji.parse(n.name) + "</p>";
 		} else {
 			return '';
 		}

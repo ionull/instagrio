@@ -41,6 +41,7 @@ var MainAssistant = Class.create(BaseAssistant, (function() {
 		refresh: function(opts) {
 			if (opts != null) {
 				if (opts.source == 'menu') {
+					Mojo.Log.info(this.TAG, 'on refresh: ' + opts.which);
 					switch (opts.which) {
 					case 'home':
 						AppSDK.getFeed(this.callback);

@@ -104,14 +104,19 @@ AppMenu.prototype = {
 				which: which
 			};
 			if (currentScene != null && currentScene.sceneName == 'main') {
+				Mojo.Log.error('it is main');
 				currentScene.assistant.refresh(opts);
 			} else {
+				Mojo.Log.error('it is not main');
 				//Mojo.Controller.stageController.popScenesTo('main', opts);
 				mainStage.popScenesTo('main', opts);
-				currentScene = mainStage.activeScene();
-				if (!currentScene || currentScene.sceneName != 'main') {
-					mainStage.pushScene('main');
-				}
+				setTimeout(function() {
+					currentScene = mainStage.activeScene();
+					if (!currentScene || currentScene.sceneName != 'main') {
+						Mojo.Log.error('it is not main after pop');
+						mainStage.pushScene('main', opts);
+					}
+				}, 500);
 			}
 		}
 	},

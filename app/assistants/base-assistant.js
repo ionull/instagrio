@@ -59,7 +59,7 @@ var BaseAssistant = Class.create({
 		}
 	},
 	onGlobalMouseDown: function(e) {
-		Mojo.Log.error('onGlobalMouseDown: ' + e.target.outerHTML);
+		Mojo.Log.info('onGlobalMouseDown: ' + e.target.outerHTML);
 		var target = e.target;
 		switch(target.innerHTML) {
 			case '+':
