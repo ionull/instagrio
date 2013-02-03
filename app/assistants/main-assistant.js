@@ -6,6 +6,7 @@ var MainAssistant = Class.create(BaseAssistant, (function() {
 			this.TAG = 'MainAssistant';
 
 			if (params != null) {
+				this.initParams = params;
 				if (params.source == 'oauth') {
 					var response = params.response.responseJSON;
 					if (params.response.status == 200) {
@@ -16,7 +17,6 @@ var MainAssistant = Class.create(BaseAssistant, (function() {
 					}
 				}
 			}
-			//$('float_all').hide();
 		},
 		setup: function($super) {
 			Mojo.Log.info(this.TAG, 'setup');
@@ -33,10 +33,14 @@ var MainAssistant = Class.create(BaseAssistant, (function() {
 			this.photoListHelper = photoListHelper;
 
 			this.callback = photoListHelper.callback();
-			this.refresh({
-				source: 'menu',
-				which: 'home'
-			});
+			if(this.initParams == null) {
+				this.refresh({
+					source: 'menu',
+					which: 'home'
+				});
+			} else {
+				this.refresh(this.initParams);
+			}
 		},
 		refresh: function(opts) {
 			if (opts != null) {
