@@ -1,8 +1,8 @@
 [
     {"source": "vendors/date.js"},
-    {"source": "vendors/emoji.js/vendor/punycode/punycode.min.js"},
-    {"source": "vendors/emoji.js/emoji-list-with-image.js"},
-    {"source": "vendors/emoji.js/emoji.js"},
+    {"source": "vendors/punycode.min.js"},
+    {"source": "vendors/emoji-list-with-image.js"},
+    {"source": "vendors/emoji.js"},
     {"source": "app/utils/app-formatter.js"},
     {"source": "app/utils/app-handler.js"},
     {"source": "app/utils/app-sdk.js"},
