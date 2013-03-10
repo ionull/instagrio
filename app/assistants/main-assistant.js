@@ -7,6 +7,7 @@ var MainAssistant = Class.create(BaseAssistant, (function() {
 
 			if (params != null) {
 				this.initParams = params;
+				Mojo.Log.info(this.TAG, 'on init' + Mojo.Log.propertiesAsString(params, true));
 				if (params.source == 'oauth') {
 					var response = params.response.responseJSON;
 					if (params.response.status == 200) {
@@ -33,7 +34,7 @@ var MainAssistant = Class.create(BaseAssistant, (function() {
 			this.photoListHelper = photoListHelper;
 
 			this.callback = photoListHelper.callback();
-			if(this.initParams == null) {
+			if(this.initParams == null || this.initParams.source == 'oauth') {
 				this.refresh({
 					source: 'menu',
 					which: 'home'

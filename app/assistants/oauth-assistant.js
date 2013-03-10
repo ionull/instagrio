@@ -55,6 +55,7 @@ OauthAssistant.prototype.titleChanged = function(event){
         Mojo.Log.info(this.TAG, 'code got');
         this.controller.get('browser').hide();
         var response_param = responseVars[1];
+        Mojo.Log.info(this.TAG, 'code got: ' + callbackUrl);
         var result = response_param.match(/code=*/g);
         if (result != null) {
             var params = response_param.split("&");
@@ -82,7 +83,9 @@ OauthAssistant.prototype.requestGrant = function(){
 OauthAssistant.prototype.codeToken = function(code){
     this.exchangingToken = true;
     this.url = this.accessTokenUrl;
-    this.code = code;
+    this.code = //code;
+		code.replace(/[^\da-zA-Z]/g, '');
+	console.log('code: ' + this.code);
     this.method = this.accessTokenMethod;
     var postParams = {
         client_id: this.client_id,
