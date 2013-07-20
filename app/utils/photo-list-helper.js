@@ -87,7 +87,22 @@ var PhotoListHelper = Class.create((function() {
 			var target = event.target;
 			Mojo.Log.error('tap----->: ' + target.outerHTML);
 			var s = $(target);
-			if (s.hasClassName('likeContent')) {
+			if (s.hasClassName('videoContent')) {
+				//play video with system player
+				var videoUrl = target.getAttribute('data-video');
+				Mojo.Log.error('Playing video---->: ' + videoUrl);
+				this.controller.serviceRequest("palm://com.palm.applicationManager",
+					{
+						method: "launch",
+						parameters: {
+							id: "com.palm.app.videoplayer",
+							params: {
+								target: videoUrl
+							}
+						}
+					}
+				); 
+			} else if (s.hasClassName('likeContent')) {
 				//show like list
 				var media = target.getAttribute('data-id');
 				that.controller.stageController.pushScene('user-list', 'like', media);
@@ -227,6 +242,7 @@ var PhotoListHelper = Class.create((function() {
 					user: this.linkable ? AppFormatter.user.bind(this) : AppFormatter.user_nolink.bind(this),
 					caption: AppFormatter.caption,
 					'likes': AppFormatter.likesCount.bind(this),
+					'videos': AppFormatter.videos.bind(this),
 					comments: AppFormatter.comments.bind(this),
 					images: AppFormatter.images.bind(this),
 					user_has_liked: AppFormatter.imageHeight.bind(this)

@@ -203,6 +203,25 @@ ol, ul {
   background: url(../images/icons/unliked.png) no-repeat left;
 }
 
+.video {
+  -moz-border-radius:10px;
+  -webkit-border-radius:10px;
+  border-radius:10px;
+  border: #solid 10px #000; /* fallback for browsers that don't understand rgba */
+  background-color: rgba(0,0,0,0.7);/* slighly transparent white */
+  border-color: solid 10px rgba(0,0,0,0.2); /*Very transparent black*/
+  color: white;
+  padding: 5px;
+}
+
+.videoContent {
+  padding-left: 30px;
+}
+
+.hasVideo {
+  background: url(../images/icons/video.png) no-repeat left;
+}
+
 .user-item-dark {
   background-color: rgba(0,0,0,0.2);
 }

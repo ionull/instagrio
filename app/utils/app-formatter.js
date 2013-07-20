@@ -43,6 +43,18 @@ var AppFormatter = {
 			return '';
 		}
 	},
+	videos: function(n, model) {
+		if (n) {
+			if (n.standard_resolution || n.low_resolution) {
+				var outer = '<div id="video-icon" class="video" style="position: absolute;left: 15px; top: 70px;">';
+				return outer + "&nbsp;<span class='videoContent hasVideo' data-video='" 
+					+ n.standard_resolution.url + "'/>&nbsp;</span>"
+					+ "</div>"
+					;
+			}
+		}
+		return '';
+	},
 	index: function(n, model) {
 		if (n) {
 			if (n % 2 != 0) {
