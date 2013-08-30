@@ -121,6 +121,15 @@ var UserAssistant = Class.create(BaseAssistant, {
 		this.callback = photoListHelper.callback();
 		AppSDK.getUserMedia(this.callback, this.uid);
 	},
+	loadMore: function(nextMaxId) {
+		Mojo.Log.error('loading more..' + nextMaxId);
+		var callback = {
+			onSuccess: this.callback.onSuccess.bind(this),
+			onFailure: this.callback.onFailure.bind(this),
+			nextMaxId: nextMaxId
+		};
+		AppSDK.getUserMedia(callback, this.uid);
+	},
 	activate: function($super) {
 		$super();
 	},

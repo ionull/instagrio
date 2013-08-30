@@ -14,8 +14,10 @@ var PhotoListHelper = Class.create((function() {
 				//Mojo.Log.info('hacking ' + $('photo_' + items[0].id).cumulativeScrollOffset().top);
 				//var firstEl = $('photo_' + items[0].id);
 				var firstEl = this.controller.get('photo_' + items[0].id);
-				if (firstEl != null && firstEl.cumulativeScrollOffset().top < 0) {
-					floatAll.hide();
+				if (firstEl != null) {
+					if(firstEl.cumulativeScrollOffset().top < 0) {
+						floatAll.hide();
+					}
 				}
 			}
 			for (i = 0; i < items.length; ++i) {
@@ -35,21 +37,22 @@ var PhotoListHelper = Class.create((function() {
 							var pIDNext = items[i + 1].id;
 							//var nextEl = $('photo_' + pIDNext);
 							var nextEl = this.controller.get('photo_' + pIDNext);
-							var nextTop = nextEl.viewportOffset().top;
-							var floatAndMargin = floatHeight + 7;
-							//Mojo.Log.info('nextTop' + nextTop + ' floatAll height' + floatAndMargin);
-							if (nextTop > 0 && nextTop < floatAndMargin) {
-								var floatTop = nextTop - floatAndMargin + 'px';
-								//Mojo.Log.info('floatTop ' + floatTop);
-								floatAll.setStyle({
-									'top': floatTop
-								});
-							}
-							else {
-								if (floatAll.getStyle('top') != '0px') {
+							if(nextEl) {
+								var nextTop = nextEl.viewportOffset().top;
+								var floatAndMargin = floatHeight + 7;
+								//Mojo.Log.info('nextTop' + nextTop + ' floatAll height' + floatAndMargin);
+								if (nextTop > 0 && nextTop < floatAndMargin) {
+									var floatTop = nextTop - floatAndMargin + 'px';
+									//Mojo.Log.info('floatTop ' + floatTop);
 									floatAll.setStyle({
-										'top': 0
+										'top': floatTop
 									});
+								} else {
+									if (floatAll.getStyle('top') != '0px') {
+										floatAll.setStyle({
+											'top': 0
+										});
+									}
 								}
 							}
 						}
@@ -70,6 +73,21 @@ var PhotoListHelper = Class.create((function() {
 						}
 					});
 					break;
+				}
+			}
+
+			//try to load more
+			var scrollHeight = this.scroller.mojo.scrollerSize().height;
+			var listHeight = this.photoList.getHeight();
+			var scrollPos = this.scroller.mojo.getScrollPosition().top;
+			//Mojo.Log.error('scroll height: -->' + listHeight + ' pos: ' + (scrollPos - scrollHeight));
+			if(listHeight + (scrollPos - scrollHeight) < 450) {
+				if(this.assistant.loadMore && !this.isRevealing && this.nextMaxId && this.nextMaxId != 'undefined') {
+					if(this.hasLoadedMaxId != this.nextMaxId) {
+						this.assistant.loadMore(this.nextMaxId);
+						AppHandler.alert('loading more..');
+					}
+					this.hasLoadedMaxId = this.nextMaxId;
 				}
 			}
 		},
@@ -192,11 +210,27 @@ var PhotoListHelper = Class.create((function() {
 		},
 		onSuccess: function(response) {
 			var response_text = response.responseText;
-			Mojo.Log.error('feed ----------->: ' + response.status + response_text);
+			//Mojo.Log.error('feed ----------->: ' + response.status + response_text);
 			var json = response.responseJSON;
+
+			if(json != null && json.pagination) {
+				var pagination = json.pagination;
+				this.nextMaxId = pagination.next_max_id;
+				if(pagination.next_max_like_id) {
+					this.nextMaxId = pagination.next_max_like_id;
+				}
+			}
+
 			var data = $A(json.data);
 			Mojo.Log.info(this.TAG, data.length);
-			this.modelList.items = [];
+
+			var more = response.more;
+			if(!more) {
+				this.modelList.items = [];
+				this.hasLoadedMaxId = '';
+			}
+			var gotoPos = this.modelList.items.length;
+
 			for (var i = 0; i < data.length; ++i) {
 				if (typeof data[i] != "function") {
 					this.modelList.items.push(data[i]);
@@ -205,9 +239,24 @@ var PhotoListHelper = Class.create((function() {
 					//
 				}
 			}
+
+			this.isRevealing = true;
+
 			this.controller.modelChanged(this.modelList);
 			//Mojo.Log.info(this.TAG, this.photoList.innerHTML);
-			this.photoList.mojo.revealItem(0, true);
+
+			if(more) {
+				Mojo.Log.error('reveal: ' + gotoPos);
+				this.photoList.mojo.revealItem(gotoPos + 1, true);
+			} else {
+				Mojo.Log.error('reveal: top');
+				this.photoList.mojo.revealItem(0, true);
+			}
+
+			var that = this;
+			setTimeout(function() {
+				that.isRevealing = false;
+			}, 2500);
 		},
 		onFailure: function() {}
 	};

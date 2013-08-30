@@ -22,6 +22,10 @@ AppSDK.loadReq = function(callback, url, urlParams, postParams) {
 		if(AppHandler.access_token != null) {
 			url = AppSDK.addUriParam(url, 'access_token', AppHandler.access_token);
 		}
+
+		if(callback.nextMaxId) {
+			url = AppSDK.addUriParam(url, callback.isLiked ? 'max_like_id' : 'max_id', callback.nextMaxId);
+		}
 		
 		/*
 		if(method == 'put' || method == 'delete') {
@@ -58,6 +62,9 @@ AppSDK.loadReq = function(callback, url, urlParams, postParams) {
 		//contentType: "application/json",
         onSuccess: (function(transport){
 			Mojo.Log.info(AppSDK.TAG, 'onSuccess');// + transport.responseText);
+			if(callback.nextMaxId) {
+				transport.more = true;
+			}
 			AppHandler.onSuccess(callback, transport, {
 				url: url,
 				urlParams: urlParams,
@@ -66,7 +73,38 @@ AppSDK.loadReq = function(callback, url, urlParams, postParams) {
 			//AppSDK.onSuccess(callback, transport);
 		}),
         onFailure: (function(transport){
-			Mojo.Log.info(AppSDK.TAG, 'onFailure' + transport.responseText);
+			Mojo.Log.info(AppSDK.TAG, 'onFailure: ' + transport.responseText);
+			var error = JSON.parse(transport.responseText);
+			Mojo.Log.info(AppSDK.TAG, 'onFailure: ' + error.meta.error_type);
+			if(error && error.meta && error.meta.error_type) {
+				var errorType = error.meta.error_type;
+				//OAuthAccessTokenException
+				//OAuthException
+				if(errorType.indexOf('OAuth') != -1) {
+					AppDB.removeOAuth({
+						onSuccess: function() {
+							AppHandler.access_token = null;
+							AppHandler.user = null;
+							//launch app to show login
+							setTimeout(function() {
+								Mojo.Log.error('reopen app to connect');
+								AppLauncher.onOpenAPP();
+							}, 10);
+							var mainStage = Mojo.Controller.getAppController().getStageController('main');
+							if (mainStage) {
+								//var currentScene = Mojo.Controller.stageController.activeScene();
+								var currentScene = mainStage.activeScene();
+								if (currentScene != null) {
+									mainStage.popScenesTo('login', {});
+								}
+							}
+						},
+						onFailure: function() {
+							Mojo.Log.error('reopen app to connect22');
+						}
+					});
+				}
+			}
 			AppHandler.onFailure(callback, transport, {
 				url: url,
 				urlParams: urlParams,

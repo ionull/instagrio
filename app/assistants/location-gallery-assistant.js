@@ -21,6 +21,15 @@ var LocationGalleryAssistant = Class.create(BaseAssistant, {
 		this.callback = photoListHelper.callback();
 		AppSDK.getMediaSearch(this.callback, this.lat, this.lng);
 	},
+	loadMore: function(nextMaxId) {
+		Mojo.Log.error('loading more..' + nextMaxId);
+		var callback = {
+			onSuccess: this.callback.onSuccess.bind(this),
+			onFailure: this.callback.onFailure.bind(this),
+			nextMaxId: nextMaxId
+		};
+		AppSDK.getMediaSearch(this.callback, this.lat, this.lng);
+	},
 	activate: function($super) {
 		$super();
 	},
