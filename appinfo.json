@@ -1,6 +1,6 @@
 {
 	"id": "bz.tsung.instagrio",
-	"version": "0.1.14",
+	"version": "0.1.15",
 	"vendor": "Tsung W.",
 	"type": "web",
 	"main": "index.html",
@@ -10,10 +10,18 @@
 	"keywords": ["instagram", "photo", "gallery"],
 	"universalSearch": {
 		"search": {
-			"displayName": "Find Instagram User",
+			"displayName": "Search Instagram User",
 			"url": "bz.tsung.instagrio",
 			"launchParam": {
 				"action": "search-user",
+				"data": "#{searchTerms}"
+			}
+		}, 
+		"action": {
+			"displayName": "Search Instagram Photo with Hashtag",
+			"url": "bz.tsung.instagrio",
+			"launchParam": {
+				"action": "search-tag",
 				"data": "#{searchTerms}"
 			}
 		}

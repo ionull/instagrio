@@ -157,6 +157,18 @@ AppSDK.getUsersSearch = function(callback, who) {
 	AppSDK.loadReq(callback, url, urlParams);
 }
 
+AppSDK.getTagsSearch = function(callback, tag) {
+	var url = '/tags/' + tag + '/media/recent';
+	var urlParams = {
+		'method': 'get',
+		'doing': 'getTagsSearch',
+		//'q': tag,
+		'count': 100
+	};
+
+	AppSDK.loadReq(callback, url, urlParams);
+}
+
 AppSDK.getFeed = function(callback) {
 	var url = '/users/self/feed';
 	

@@ -30,6 +30,10 @@
         "source": "app/assistants/location-gallery-assistant.js"
     },
     {
+        "scenes": "tag-gallery",
+        "source": "app/assistants/tag-gallery-assistant.js"
+    },
+    {
         "scenes": "user",
         "source": "app/assistants/user-assistant.js"
     },

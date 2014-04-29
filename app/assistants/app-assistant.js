@@ -103,6 +103,12 @@ AppAssistant.prototype = {
 					mainController.pushScene('user-list', 'search', launchParams.data);
 				});
 				break;
+			case 'search-tag':
+				AppAssistant.helper.verifyAuth(function() {
+					//search and get list
+					mainController.pushScene('tag-gallery', launchParams.data);
+				});
+				break;
 			case 'dock-mode':
 				AppAssistant.helper.verifyAuth(function() {
 					mainController.pushScene('photo-gallery', 'dock-mode');

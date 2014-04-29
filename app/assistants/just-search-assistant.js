@@ -41,7 +41,7 @@ JustSearchAssistant.prototype = {
 		var that = this;
 		if (Mojo.Char.isEnterKey(event.keyCode)) {
 			event.stop();
-			that.send();
+			that.searchUser();
 		}
 	},
 	onClick: function(event) {
@@ -51,22 +51,36 @@ JustSearchAssistant.prototype = {
 		}
 		switch (target.id) {
 		case 'search-user':
-			this.send();
+			this.searchUser();
+			break;
+		case 'search-hashtag':
+			this.searchTag();
 			break;
 		case 'cancel':
 			this.widget.mojo.close();
 			break;
 		}
 	},
-	send: function() {
+	searchUser: function() {
 		var that = this;
 		Mojo.Log.info('on search user' + this.model.content);
 		if (this.model.content == '') {
 			return;
 		} else {
-			AppHandler.alert('searching..');
+			AppHandler.alert('searching users..');
 			that.widget.mojo.close();
 			that.assistant.controller.stageController.pushScene('user-list', 'search', that.model.content);
+		}
+	},
+	searchTag: function() {
+		var that = this;
+		Mojo.Log.info('on search tag' + this.model.content);
+		if (this.model.content == '') {
+			return;
+		} else {
+			AppHandler.alert('searching tags..');
+			that.widget.mojo.close();
+			that.assistant.controller.stageController.pushScene('tag-gallery', that.model.content);
 		}
 	}
 };

@@ -87,6 +87,10 @@ body {
   background: url(../images/icons/search_user.png) no-repeat top;
 }
 
+.tool-bar #search-hashtag span {
+  background: url(../images/icons/search_hashtag.png) no-repeat top;
+}
+
 /* feed item */
 ol, ul {
     list-style: none;
