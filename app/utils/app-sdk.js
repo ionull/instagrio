@@ -24,7 +24,7 @@ AppSDK.loadReq = function(callback, url, urlParams, postParams) {
 		}
 
 		if(callback.nextMaxId) {
-			url = AppSDK.addUriParam(url, callback.isLiked ? 'max_like_id' : 'max_id', callback.nextMaxId);
+			url = AppSDK.addUriParam(url, callback.isTag ? 'max_tag_id' : callback.isLiked ? 'max_like_id' : 'max_id', callback.nextMaxId);
 		}
 		
 		/*
@@ -35,7 +35,7 @@ AppSDK.loadReq = function(callback, url, urlParams, postParams) {
 		*/
 	}
 	
-	Mojo.Log.info(AppSDK.TAG, "method " + method + " url " + url);
+	Mojo.Log.error(AppSDK.TAG, "method " + method + " url " + url);
 	
 	if(postParams != null) {
 //		for(var postName in postParams) {

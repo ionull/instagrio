@@ -218,6 +218,8 @@ var PhotoListHelper = Class.create((function() {
 				this.nextMaxId = pagination.next_max_id;
 				if(pagination.next_max_like_id) {
 					this.nextMaxId = pagination.next_max_like_id;
+				} else if(pagination.next_max_tag_id) {
+					this.nextMaxId = pagination.next_max_tag_id;
 				}
 			}
 

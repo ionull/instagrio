@@ -25,9 +25,10 @@ var TagGalleryAssistant = Class.create(BaseAssistant, {
 		var callback = {
 			onSuccess: this.callback.onSuccess.bind(this),
 			onFailure: this.callback.onFailure.bind(this),
+			isTag: true,
 			nextMaxId: nextMaxId
 		};
-		AppSDK.getTagsSearch(this.callback, this.tag);
+		AppSDK.getTagsSearch(callback, this.tag);
 	},
 	activate: function($super) {
 		$super();
